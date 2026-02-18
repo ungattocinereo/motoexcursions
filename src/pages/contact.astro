@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+---
+
+<BaseLayout title="Contact | Italia Moto Excursions" description="Contact Italia Moto Excursions and request your custom route.">
+  <section class="surface-card" style="margin-top: 1rem; padding: 1.1rem;">
+    <p class="kicker" style="margin: 0;">Contact</p>
+    <h1 style="margin: 0.4rem 0 0.5rem;">Talk to us about your ride</h1>
+    <p style="margin: 0 0 0.9rem; color: var(--muted);">
+      Send us your preferred date and contact details. We will confirm route, timing and exact meeting point.
+    </p>
+    <LeadForm
+      tourSlug="contact"
+      tourTitle="General contact request"
+      pageUrl={Astro.url.href}
+      buttonLabel="Send request"
+    />
+  </section>
+</BaseLayout>

@@ -1,0 +1,104 @@
+{
+  "napoli": {
+    "page": "https://motoexcursions.it/excursions/napoli/",
+    "cover": "Naples-italia-moto-excursions-hero-1.jpg",
+    "gallery": [
+      "Naples-italia-moto-excursions-01.jpg",
+      "Naples-italia-moto-excursions-02.jpg",
+      "Naples-italia-moto-excursions-03.jpg",
+      "Naples-italia-moto-excursions-04.jpg",
+      "Naples-italia-moto-excursions-05.jpg",
+      "Naples-italia-moto-excursions-06.jpg",
+      "Naples-italia-moto-excursions-07.jpg",
+      "Naples-italia-moto-excursions-08.jpg",
+      "Naples-italia-moto-excursions-09.jpg",
+      "Naples-italia-moto-excursions-010.jpg",
+      "Naples-italia-moto-excursions-011.jpg",
+      "Naples-italia-moto-excursions-012.jpg"
+    ],
+    "copied": [
+      "Naples-italia-moto-excursions-hero-1.jpg",
+      "Naples-italia-moto-excursions-01.jpg",
+      "Naples-italia-moto-excursions-02.jpg",
+      "Naples-italia-moto-excursions-03.jpg",
+      "Naples-italia-moto-excursions-04.jpg",
+      "Naples-italia-moto-excursions-05.jpg",
+      "Naples-italia-moto-excursions-06.jpg",
+      "Naples-italia-moto-excursions-07.jpg",
+      "Naples-italia-moto-excursions-08.jpg",
+      "Naples-italia-moto-excursions-09.jpg",
+      "Naples-italia-moto-excursions-010.jpg",
+      "Naples-italia-moto-excursions-011.jpg",
+      "Naples-italia-moto-excursions-012.jpg"
+    ],
+    "missing": []
+  },
+  "amalfi": {
+    "page": "https://motoexcursions.it/excursions/amalfi/",
+    "cover": "Amalfi-italia-moto-excursions-hero-1.webp",
+    "gallery": [
+      "Amalfi-italia-moto-excursions-01.jpg",
+      "Amalfi-italia-moto-excursions-02.jpg",
+      "Amalfi-italia-moto-excursions-03.jpg",
+      "Amalfi-italia-moto-excursions-04.jpg",
+      "Amalfi-italia-moto-excursions-05.jpg",
+      "Amalfi-italia-moto-excursions-06.jpg",
+      "Amalfi-italia-moto-excursions-07.jpg",
+      "Amalfi-italia-moto-excursions-08.jpg",
+      "Amalfi-italia-moto-excursions-09.jpg",
+      "Amalfi-italia-moto-excursions-010.jpg",
+      "Amalfi-italia-moto-excursions-011.jpg",
+      "Amalfi-italia-moto-excursions-012.jpg",
+      "Amalfi-italia-moto-excursions-013.jpg",
+      "Amalfi-italia-moto-excursions-014.jpg",
+      "Amalfi-italia-moto-excursions-015.jpg"
+    ],
+    "copied": [
+      "Amalfi-italia-moto-excursions-hero-1.webp",
+      "Amalfi-italia-moto-excursions-01.jpg",
+      "Amalfi-italia-moto-excursions-02.jpg",
+      "Amalfi-italia-moto-excursions-03.jpg",
+      "Amalfi-italia-moto-excursions-04.jpg",
+      "Amalfi-italia-moto-excursions-05.jpg",
+      "Amalfi-italia-moto-excursions-06.jpg",
+      "Amalfi-italia-moto-excursions-07.jpg",
+      "Amalfi-italia-moto-excursions-08.jpg",
+      "Amalfi-italia-moto-excursions-09.jpg",
+      "Amalfi-italia-moto-excursions-010.jpg",
+      "Amalfi-italia-moto-excursions-011.jpg",
+      "Amalfi-italia-moto-excursions-012.jpg",
+      "Amalfi-italia-moto-excursions-013.jpg",
+      "Amalfi-italia-moto-excursions-014.jpg",
+      "Amalfi-italia-moto-excursions-015.jpg"
+    ],
+    "missing": []
+  },
+  "vesuvius": {
+    "page": "https://motoexcursions.it/excursions/vesuvius/",
+    "cover": "IMG_4900.jpg",
+    "gallery": [
+      "IMG_3886.jpg",
+      "IMG_4360.jpg",
+      "IMG_5828.jpg",
+      "IMG_5870.jpg",
+      "IMG_6376.jpg",
+      "IMG_6377.jpg",
+      "IMG_6399.jpg",
+      "IMG_9646.jpg",
+      "IMG_5846.jpg"
+    ],
+    "copied": [
+      "IMG_4900.jpg",
+      "IMG_3886.jpg",
+      "IMG_4360.jpg",
+      "IMG_5828.jpg",
+      "IMG_5870.jpg",
+      "IMG_6376.jpg",
+      "IMG_6377.jpg",
+      "IMG_6399.jpg",
+      "IMG_9646.jpg",
+      "IMG_5846.jpg"
+    ],
+    "missing": []
+  }
+}

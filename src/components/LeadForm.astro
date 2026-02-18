@@ -1,0 +1,96 @@
+---
+interface Props {
+  tourSlug: string;
+  tourTitle: string;
+  pageUrl: string;
+  buttonLabel?: string;
+}
+
+const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astro.props;
+---
+
+<form class="lead-form surface-card" data-lead-form style="padding: 1rem;">
+  <div class="section-head" style="margin-bottom: 0.5rem;">
+    <h2 style="font-size: 1.3rem;">Request this tour</h2>
+  </div>
+  <label>
+    Name *
+    <input name="name" autocomplete="name" required />
+  </label>
+  <label>
+    Phone or WhatsApp *
+    <input name="contact" autocomplete="tel" required />
+  </label>
+  <label>
+    Preferred date
+    <input type="date" name="date" />
+  </label>
+  <label>
+    Message
+    <textarea name="message" placeholder="Any notes or requests"></textarea>
+  </label>
+
+  <input name="tourSlug" type="hidden" value={tourSlug} />
+  <input name="tourTitle" type="hidden" value={tourTitle} />
+  <input name="pageUrl" type="hidden" value={pageUrl} />
+  <input
+    name="honeypot"
+    type="text"
+    autocomplete="off"
+    tabindex="-1"
+    aria-hidden="true"
+    style="position: absolute; left: -99999px; opacity: 0; width: 1px; height: 1px;"
+  />
+
+  <button type="submit">{buttonLabel}</button>
+  <p data-lead-status style="margin: 0; color: var(--muted);"></p>
+</form>
+
+<script>
+  // @ts-nocheck
+  const forms = /** @type {NodeListOf<HTMLFormElement>} */ (document.querySelectorAll('[data-lead-form]'));
+
+  forms.forEach((form) => {
+    const status = /** @type {HTMLElement | null} */ (form.querySelector('[data-lead-status]'));
+    const submitButton = /** @type {HTMLButtonElement | null} */ (form.querySelector('button[type="submit"]'));
+    const originalButtonText = submitButton?.textContent ?? 'Request this tour';
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+      }
+      if (status) status.textContent = '';
+
+      try {
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(result?.error ?? 'Request failed');
+        }
+
+        if (status) status.textContent = 'Thank you. We will contact you shortly.';
+        form.reset();
+      } catch (error) {
+        if (status) status.textContent = error instanceof Error ? error.message : 'Could not send request.';
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalButtonText;
+        }
+      }
+    });
+  });
+</script>

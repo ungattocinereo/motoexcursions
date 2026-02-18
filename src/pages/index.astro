@@ -1,0 +1,357 @@
+---
+import { getCollection } from 'astro:content';
+import SocialSection from '../components/SocialSection.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tours = (await getCollection('tours')).sort((a, b) => a.data.order - b.data.order);
+const featuredTour = tours[0];
+
+const galleryImages = [
+  '/images/tours/amalfi/Amalfi-italia-moto-excursions-01.jpg',
+  '/images/tours/vesuvius/IMG_5828.jpg',
+  '/images/tours/napoli/Naples-italia-moto-excursions-03.jpg',
+  '/images/tours/amalfi/Amalfi-italia-moto-excursions-04.jpg',
+  '/images/tours/vesuvius/IMG_6376.jpg',
+  '/images/tours/napoli/Naples-italia-moto-excursions-05.jpg',
+  '/images/tours/amalfi/Amalfi-italia-moto-excursions-06.jpg',
+  '/images/tours/vesuvius/IMG_6399.jpg',
+  '/images/tours/napoli/Naples-italia-moto-excursions-07.jpg',
+  '/images/tours/amalfi/Amalfi-italia-moto-excursions-08.jpg',
+  '/images/tours/vesuvius/IMG_9646.jpg',
+  '/images/tours/napoli/Naples-italia-moto-excursions-09.jpg',
+];
+---
+
+<BaseLayout
+  title="Moto excursions in Naples and Vesuvius with Dima and friends"
+  description="Join Dima and friends on an adrenaline-fueled adventure through the streets of Naples, Sorrento, Amalfi and mount Vesuvius."
+  image={featuredTour?.data.coverImage}
+  isHome={true}
+>
+  <!-- ═══ Hero ═══ -->
+  <section class="hero-cinematic">
+    <div class="hero-cinematic__bg">
+      <img src="/images/tours/amalfi/Amalfi-italia-moto-excursions-hero-1.webp" alt="Amalfi Coast motorcycle adventure" loading="eager" decoding="async" />
+      <div class="hero-cinematic__overlay"></div>
+      <div class="hero-cinematic__grain"></div>
+    </div>
+
+    <div class="hero-cinematic__content site-shell">
+      <div class="hero-cinematic__left">
+        <span class="hero-cinematic__kicker">Italia Moto Excursions</span>
+        <h1 class="hero-cinematic__title">
+          Your next <em>adventure</em> starts on the back of a motorcycle
+        </h1>
+        <p class="hero-cinematic__subtitle">
+          Private moto tours through Naples, Vesuvius &amp; the Amalfi Coast. You ride, Dima drives.
+        </p>
+        <div class="hero-cinematic__cta">
+          <a class="btn-solid" href="/contact/">Book your ride</a>
+          <a class="btn-ghost" href="/tours/">
+            Explore excursions
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-cinematic__right">
+        <div class="hero-cinematic__card">
+          <img src="/images/motoexcursions-it-dima2.webp" alt="Dima Brenych - your moto guide" loading="eager" decoding="async" />
+          <div class="hero-cinematic__card-info">
+            <strong>Dima Brenych</strong>
+            <span>Your personal moto guide</span>
+          </div>
+          <a class="hero-cinematic__card-ig" href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+        <div class="hero-cinematic__stats">
+          <div class="hero-cinematic__stat">
+            <strong>3</strong>
+            <span>Unique routes</span>
+          </div>
+          <div class="hero-cinematic__stat-divider"></div>
+          <div class="hero-cinematic__stat">
+            <strong>500+</strong>
+            <span>Happy riders</span>
+          </div>
+          <div class="hero-cinematic__stat-divider"></div>
+          <div class="hero-cinematic__stat">
+            <strong>5.0</strong>
+            <span>Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-cinematic__scroll">
+      <div class="hero-cinematic__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ YouTube Intro / About Dima ═══ -->
+  <section class="intro-section">
+    <div class="intro-video">
+      <iframe
+        src="https://www.youtube.com/embed/uF6Up6p3y9Q"
+        title="Italia Moto Excursions - Video introduction"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+    </div>
+    <div class="intro-text">
+      <h2>I'm Dima, your future bike driver</h2>
+      <p>
+        Looking for a unique way to explore Naples, Vesuvius, and the Amalfi Coast?
+        Hop on my motorcycle and let me take you on a journey you'll never forget!
+        As the driver, I'll navigate the roads while you sit back and enjoy the ride.
+      </p>
+      <p>
+        Get ready to witness some of the most stunning views as we journey through
+        these fabulous places together. Book your motorcycle adventure now and
+        let's hit the road!
+      </p>
+      <blockquote class="intro-quote">
+        "I'll drive, you ride &mdash; together we'll explore Naples, Vesuvius, and
+        the Amalfi Coast on a thrilling motorcycle adventure."
+        <cite>Dima Brenych, Founder of Italia Moto Excursions</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ═══ Destinations ═══ -->
+  <section class="destinations-section">
+    <h2>Unleash <em>the beauty</em> of southern Italy on a Moto</h2>
+    <p>
+      With Italia Moto Excursions, you'll have the opportunity to ride on non-tourist routes,
+      taking in the breathtaking beauty of Southern Italy away from the crowds.
+    </p>
+    <div class="destination-cards">
+      {tours.map((tour) => (
+        <a class="dest-card" href={`/tours/${tour.slug}/`}>
+          <img src={tour.data.coverImage} alt={tour.data.title} loading="lazy" decoding="async" />
+          <div class="dest-card-overlay">
+            <span class="dest-stat">{tour.data.duration}</span>
+            <h3>{tour.data.title}</h3>
+            <span class="dest-subtitle">{tour.data.excerpt}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ Excursion Types ═══ -->
+  <section class="excursion-types">
+    <h2>Choose your excursion type</h2>
+    <div class="excursion-cards">
+      <div class="exc-card">
+        <img src="/images/tours/vesuvius/IMG_4900.jpg" alt="On the motobike as a passenger" loading="lazy" decoding="async" />
+        <div class="exc-card-body">
+          <h3>On the motobike as a passenger</h3>
+          <p>
+            Join me on my primary motorbike excursions, where I'll be your driver and you'll be my passenger.
+            Experience the stunning beauty of southern Italy as I guide you through its breathtaking landscapes.
+          </p>
+        </div>
+      </div>
+      <div class="exc-card">
+        <img src="/images/tours/amalfi/Amalfi-italia-moto-excursions-02.jpg" alt="On the boat" loading="lazy" decoding="async" />
+        <div class="exc-card-body">
+          <h3>On the boat</h3>
+          <p>
+            Up to 5 people boat tour. Or canoe tour for a group!
+            Experience the Amalfi Coast from the sea, discovering hidden coves and stunning views.
+          </p>
+        </div>
+      </div>
+      <div class="exc-card">
+        <img src="/images/tours/napoli/Naples-italia-moto-excursions-01.jpg" alt="Napoli walking tour" loading="lazy" decoding="async" />
+        <div class="exc-card-body">
+          <h3>Napoli walking tour</h3>
+          <p>
+            A walking tour in Naples with Dima is a unique opportunity to explore the vibrant city
+            and its rich history, culture, and cuisine through narrow streets and bustling piazzas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Photo Gallery Strip ═══ -->
+  <section class="photo-strip">
+    <div class="photo-grid-flow">
+      {galleryImages.map((src, i) => (
+        <button
+          class:list={[{ 'span-2': i === 0 || i === 5, 'tall': i === 3 || i === 7 }]}
+          data-lightbox-trigger
+          data-src={src}
+          type="button"
+          aria-label={`View photo ${i + 1}`}
+        >
+          <img src={src} alt={`Moto excursion photo ${i + 1}`} loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══ Social Feed ═══ -->
+  <section style="margin-top: 2rem; padding-bottom: 2rem;">
+    <div class="section-head">
+      <div>
+        <p class="kicker" style="margin: 0;">Social feed</p>
+        <h2>Latest from Instagram, Facebook and YouTube</h2>
+      </div>
+      <small id="feed-fetched-at" style="color: var(--muted);"></small>
+    </div>
+
+    <div class="surface-card" style="padding: 0.85rem; margin-bottom: 1rem;">
+      <div class="section-head" style="margin-bottom: 0.5rem;">
+        <h2 style="font-size: 1.2rem;">Latest across all</h2>
+      </div>
+      <div class="social-row" data-social-row="latest">
+        <p data-social-empty style="margin: 0; color: var(--muted);">Loading latest items…</p>
+      </div>
+    </div>
+
+    <div class="feed-columns">
+      <SocialSection
+        title="Instagram"
+        source="instagram"
+        viewMoreUrl="https://www.instagram.com/italia_moto_excursions/"
+        items={[]}
+      />
+      <SocialSection title="Facebook" source="facebook" viewMoreUrl="https://www.facebook.com/motodetki" items={[]} />
+      <SocialSection
+        title="YouTube"
+        source="youtube"
+        viewMoreUrl="https://www.youtube.com/@Italia_moto_excursions/videos"
+        items={[]}
+      />
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="gallery-lightbox" aria-hidden="true">
+    <img src="" alt="" />
+    <button aria-label="Close lightbox">&times;</button>
+  </div>
+</BaseLayout>
+
+<script>
+  // Social feed
+  // @ts-nocheck
+  const LIMIT = 8;
+
+  const escapeHtml = (value) =>
+    String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+  const trim = (value, max = 140) => {
+    if (!value) return '';
+    const stringValue = String(value).trim();
+    return stringValue.length <= max ? stringValue : `${stringValue.slice(0, max - 1).trim()}…`;
+  };
+
+  const iconBySource = {
+    instagram: 'IG',
+    facebook: 'FB',
+    youtube: 'YT',
+  };
+
+  const renderCard = (item) => {
+    const title = trim(item.title, 90) || `${iconBySource[item.source] ?? 'Post'} update`;
+    const text = trim(item.text, 140);
+    const image = item.image || item.thumbnail;
+    const date = new Date(item.date).toLocaleDateString('en-US');
+
+    return `
+      <a class="social-card surface-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+        ${image ? `<img class="social-thumb" src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" />` : ''}
+        <div class="social-content">
+          <strong style="display:block;">${escapeHtml(title)}</strong>
+          <small style="color: var(--muted);">${escapeHtml(date)} · ${escapeHtml(iconBySource[item.source] ?? item.source)}</small>
+          ${text ? `<p>${escapeHtml(text)}</p>` : ''}
+        </div>
+      </a>
+    `;
+  };
+
+  const fillRow = (source, items) => {
+    const row = document.querySelector(`[data-social-row="${source}"]`);
+    if (!row) return;
+
+    if (!items || items.length === 0) {
+      row.innerHTML = '<p data-social-empty style="margin:0; color: var(--muted);">No posts available right now.</p>';
+      return;
+    }
+
+    row.innerHTML = items.slice(0, LIMIT).map(renderCard).join('');
+  };
+
+  const run = async () => {
+    try {
+      const response = await fetch(`/api/social-feed?limit=${LIMIT}`);
+      if (!response.ok) throw new Error('social-feed endpoint is unavailable');
+      const payload = await response.json();
+
+      fillRow('instagram', payload.instagram);
+      fillRow('facebook', payload.facebook);
+      fillRow('youtube', payload.youtube);
+
+      const latest = [...(payload.instagram ?? []), ...(payload.facebook ?? []), ...(payload.youtube ?? [])]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, LIMIT);
+
+      fillRow('latest', latest);
+
+      const fetchedAt = document.getElementById('feed-fetched-at');
+      if (fetchedAt && payload.fetchedAt) {
+        fetchedAt.textContent = `Updated ${new Date(payload.fetchedAt).toLocaleString('en-US')}`;
+      }
+    } catch (error) {
+      fillRow('instagram', []);
+      fillRow('facebook', []);
+      fillRow('youtube', []);
+      fillRow('latest', []);
+    }
+  };
+
+  run();
+
+  // Lightbox for photo gallery
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lightboxImg = lightbox?.querySelector('img');
+  const lightboxClose = lightbox?.querySelector('button');
+
+  document.querySelectorAll('[data-lightbox-trigger]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const src = trigger.getAttribute('data-src');
+      if (lightboxImg && src) {
+        lightboxImg.src = src;
+        lightboxImg.alt = trigger.getAttribute('aria-label') ?? '';
+      }
+      lightbox?.classList.add('active');
+      lightbox?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox?.classList.remove('active');
+    lightbox?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox?.classList.contains('active')) closeLightbox();
+  });
+</script>

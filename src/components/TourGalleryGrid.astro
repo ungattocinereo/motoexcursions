@@ -1,0 +1,61 @@
+---
+interface Props {
+  images: string[];
+  title: string;
+  galleryId?: string;
+}
+
+const { images, title, galleryId } = Astro.props;
+const safeId = `gallery-${(galleryId ?? title).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<section id={safeId} data-gallery-root>
+  <div class="section-head" style="margin: 1.4rem 0 0.8rem;">
+    <h2 style="font-size: 1.3rem;">Gallery</h2>
+  </div>
+  <div class="gallery-grid">
+    {images.map((image, index) => (
+      <button type="button" data-gallery-image={image} aria-label={`Open photo ${index + 1} of ${title}`}>
+        <img src={image} alt={`${title} photo ${index + 1}`} loading="lazy" decoding="async" />
+      </button>
+    ))}
+  </div>
+  <div class="lightbox" data-gallery-lightbox>
+    <button type="button" data-gallery-close aria-label="Close lightbox">×</button>
+    <img src="" alt="Expanded photo" data-gallery-expanded />
+  </div>
+</section>
+
+<script is:inline define:vars={{ safeId }}>
+  const root = document.getElementById(safeId);
+
+  if (root) {
+    const lightbox = root.querySelector('[data-gallery-lightbox]');
+    const expanded = root.querySelector('[data-gallery-expanded]');
+    const closeBtn = root.querySelector('[data-gallery-close]');
+    const triggers = root.querySelectorAll('[data-gallery-image]');
+
+    const close = () => {
+      lightbox?.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const src = trigger.getAttribute('data-gallery-image');
+        if (!src || !expanded || !lightbox) return;
+        expanded.setAttribute('src', src);
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    closeBtn?.addEventListener('click', close);
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close();
+    });
+  }
+</script>

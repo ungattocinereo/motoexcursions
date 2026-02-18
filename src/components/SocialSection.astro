@@ -1,0 +1,29 @@
+---
+import SocialCard from './SocialCard.astro';
+import type { FeedItem } from '../lib/social/types';
+
+interface Props {
+  title: string;
+  source: FeedItem['source'];
+  viewMoreUrl: string;
+  items?: FeedItem[];
+}
+
+const { title, source, viewMoreUrl, items = [] } = Astro.props;
+---
+
+<section class="surface-card" style="padding: 0.85rem;" data-social-section={source}>
+  <div class="section-head" style="margin-bottom: 0.6rem;">
+    <h2 style="font-size: 1.2rem;">{title}</h2>
+    <a class="btn-outline" href={viewMoreUrl} target="_blank" rel="noopener noreferrer">View more</a>
+  </div>
+  <div class="social-row" data-social-row={source}>
+    {
+      items.length > 0 ? (
+        items.map((item) => <SocialCard item={item} />)
+      ) : (
+        <p data-social-empty style="margin: 0; color: var(--muted);">Loading latest posts…</p>
+      )
+    }
+  </div>
+</section>

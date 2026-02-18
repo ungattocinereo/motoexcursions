@@ -1,0 +1,37 @@
+---
+interface Review {
+  author: string;
+  rating: number;
+  text: string;
+  date: string;
+  source: string;
+}
+
+interface Props {
+  reviews: Review[];
+}
+
+const { reviews } = Astro.props;
+---
+
+<section class="surface-card" style="padding: 1rem;">
+  <div class="section-head" style="margin-bottom: 0.5rem;">
+    <h2 style="font-size: 1.3rem;">Reviews</h2>
+  </div>
+  {reviews.length === 0 ? (
+    <p style="margin: 0; color: var(--muted);">No reviews added yet.</p>
+  ) : (
+    <div style="display: grid; gap: 0.85rem;">
+      {reviews.map((review) => (
+        <article style="border: 1px solid var(--line); border-radius: 0.85rem; padding: 0.8rem; background: #fff;">
+          <div style="display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <strong>{review.author}</strong>
+            <span style="color: var(--muted);">{new Date(review.date).toLocaleDateString('en-US')}</span>
+          </div>
+          <p style="margin: 0.3rem 0 0.4rem; color: #f08b1c;">{'★'.repeat(Math.max(1, Math.min(5, review.rating)))}</p>
+          <p style="margin: 0; color: var(--muted);">{review.text}</p>
+        </article>
+      ))}
+    </div>
+  )}
+</section>

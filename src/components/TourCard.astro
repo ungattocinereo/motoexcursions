@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tour: CollectionEntry<'tours'>;
+}
+
+const { tour } = Astro.props;
+---
+
+<article class="tour-card surface-card">
+  <img src={tour.data.coverImage} alt={tour.data.title} loading="lazy" decoding="async" />
+  <div class="tour-card__content">
+    <p class="kicker">{tour.data.duration}</p>
+    <h3 style="margin: 0.2rem 0 0.45rem;">{tour.data.title}</h3>
+    <p style="margin: 0; color: var(--muted); line-height: 1.6;">{tour.data.excerpt}</p>
+    <div class="tour-meta" style="margin-top: 0.7rem;">
+      <span>From &euro;{tour.data.priceFrom}</span>
+      <span>&bull;</span>
+      <span>{tour.data.meetingPoint}</span>
+    </div>
+    <a class="btn-solid" style="margin-top: 1rem; display: inline-flex;" href={`/tours/${tour.slug}/`}>Open tour</a>
+  </div>
+</article>
