@@ -1,24 +1,28 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import { tourSlug, type Tour } from '@/lib/tours';
+import { tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
-  tour: CollectionEntry<'tours'>;
+  tour: Tour;
+  locale: Locale;
 }
 
-const { tour } = Astro.props;
+const { tour, locale } = Astro.props;
+const t = useTranslations(locale);
+const slug = tourSlug(tour);
 ---
 
-<article class="tour-card surface-card">
+<article class="tour-card surface-card reveal" data-reveal>
   <img src={tour.data.coverImage} alt={tour.data.title} loading="lazy" decoding="async" />
   <div class="tour-card__content">
     <p class="kicker">{tour.data.duration}</p>
     <h3 style="margin: 0.2rem 0 0.45rem;">{tour.data.title}</h3>
     <p style="margin: 0; color: var(--muted); line-height: 1.6;">{tour.data.excerpt}</p>
     <div class="tour-meta" style="margin-top: 0.7rem;">
-      <span>From &euro;{tour.data.priceFrom}</span>
+      <span>{t('tourCard.priceFrom')} €{tour.data.priceFrom}</span>
       <span>&bull;</span>
       <span>{tour.data.meetingPoint}</span>
     </div>
-    <a class="btn-solid" style="margin-top: 1rem; display: inline-flex;" href={`/tours/${tour.slug}/`}>Open tour</a>
+    <a class="btn-solid" style="margin-top: 1rem; display: inline-flex;" href={tourPath(slug, locale)}>{t('tourCard.open')}</a>
   </div>
 </article>

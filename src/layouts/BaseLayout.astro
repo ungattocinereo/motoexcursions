@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import LangSwitch from '@/components/LangSwitch.astro';
+import { htmlLang, localizedPath, useTranslations, type Locale, locales } from '@/i18n/utils';
 
 interface Props {
   title: string;
@@ -7,41 +9,65 @@ interface Props {
   image?: string;
   noIndex?: boolean;
   isHome?: boolean;
+  locale: Locale;
 }
 
 const {
   title,
-  description = 'Private-style motorcycle excursions in Naples, Vesuvius and Amalfi Coast.',
+  description,
   image,
   noIndex = false,
   isHome = false,
+  locale,
 } = Astro.props;
+
+const t = useTranslations(locale);
+const finalDescription = description ?? t('site.defaultDescription');
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
 const canonical = new URL(Astro.url.pathname, site).toString();
 const ogImage = image ? new URL(image, site).toString() : new URL('/images/tours/vesuvius/IMG_4900.jpg', site).toString();
 const currentPath = Astro.url.pathname;
+
+const alternates = locales.map((code) => {
+  const hreflang = code === 'ua' ? 'uk' : code;
+  const path = localizedPath(currentPath, code);
+  return {
+    hreflang,
+    href: new URL(path, site).toString(),
+    code,
+  };
+});
+const xDefault = new URL(localizedPath(currentPath, 'en'), site).toString();
+
+const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefill'))}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={htmlLang[locale]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={finalDescription} />
     <link rel="canonical" href={canonical} />
     {noIndex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow" />}
 
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={finalDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:site_name" content="Italia Moto Excursions" />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : locale === 'it' ? 'it_IT' : 'uk_UA'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={finalDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="icon" type="image/png" href="/images/favicon-152.png" />
@@ -49,17 +75,19 @@ const currentPath = Astro.url.pathname;
   <body>
     <header class:list={["site-shell", { "nav-hero-overlay": isHome }]}>
       <div class="top-nav">
-        <a class="brand-mark" href="/">
+        <a class="brand-mark" href={localizedPath('/', locale)}>
           <img src="/images/2-logo-horisontal-transparency.png" alt="Italia Moto Excursions" />
         </a>
 
         <nav class="nav-center" aria-label="Main navigation">
-          <a class:list={["nav-link", { active: currentPath === "/" }]} href="/">Home</a>
-          <a class:list={["nav-link", { active: currentPath.startsWith("/tours") }]} href="/tours/">Excursions</a>
-          <a class:list={["nav-link", { active: currentPath === "/contact/" }]} href="/contact/">Contact</a>
+          <a class:list={["nav-link", { active: currentPath === localizedPath('/', locale) }]} href={localizedPath('/', locale)}>{t('nav.home')}</a>
+          <a class:list={["nav-link", { active: currentPath.includes('/tours') }]} href={localizedPath('/tours/', locale)}>{t('nav.tours')}</a>
+          <a class:list={["nav-link", { active: currentPath.endsWith('/contact/') }]} href={localizedPath('/contact/', locale)}>{t('nav.contact')}</a>
         </nav>
 
         <div class="nav-right">
+          <LangSwitch locale={locale} currentPath={currentPath} variant="nav" />
+
           <div class="nav-social">
             <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -75,8 +103,8 @@ const currentPath = Astro.url.pathname;
             </a>
           </div>
 
-          <button class="hamburger" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
-            <span>Menu</span>
+          <button class="hamburger" id="menu-toggle" aria-label={t('nav.openMenu')} aria-expanded="false">
+            <span>{t('nav.menu')}</span>
             <span class="hamburger-icon" aria-hidden="true">
               <span></span>
               <span></span>
@@ -90,14 +118,19 @@ const currentPath = Astro.url.pathname;
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
       <div class="mobile-menu-header">
-        <button class="mobile-menu-close" id="menu-close" aria-label="Close menu">&times;</button>
+        <button class="mobile-menu-close" id="menu-close" aria-label={t('nav.closeMenu')}>&times;</button>
       </div>
       <nav class="mobile-menu-nav">
-        <a href="/">Home</a>
-        <a href="/tours/">Excursions</a>
-        <a href="/contact/">Contact</a>
-        <a href="/privacy/">Privacy</a>
+        <a href={localizedPath('/', locale)}>{t('nav.home')}</a>
+        <a href={localizedPath('/tours/', locale)}>{t('nav.tours')}</a>
+        <a href={localizedPath('/contact/', locale)}>{t('nav.contact')}</a>
+        <a href={localizedPath('/privacy/', locale)}>{t('nav.privacy')}</a>
       </nav>
+
+      <div class="mobile-menu-lang">
+        <LangSwitch locale={locale} currentPath={currentPath} variant="mobile" />
+      </div>
+
       <div class="mobile-menu-social">
         <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -121,8 +154,8 @@ const currentPath = Astro.url.pathname;
     <footer class="site-shell footer-wrap">
       <div class="footer-inner">
         <p style="margin: 0;">
-          &copy; 2006&ndash;{new Date().getFullYear()} <a href="/contact/">Dima Brenych</a>.
-          Design and coding <a href="https://cinereo.it/" target="_blank" rel="noopener noreferrer">&copy; cinereo.it</a>. All rights reserved.
+          &copy; 2006&ndash;{new Date().getFullYear()} <a href={localizedPath('/contact/', locale)}>Dima Brenych</a>.
+          {t('footer.designBy')} <a href="https://cinereo.it/" target="_blank" rel="noopener noreferrer">&copy; cinereo.it</a>. {t('footer.copy')}
         </p>
         <div class="footer-social">
           <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
@@ -141,7 +174,13 @@ const currentPath = Astro.url.pathname;
       </div>
     </footer>
 
+    <a class="wa-cta" href={waHref} aria-label={t('wa.label')} target="_blank" rel="noopener noreferrer" data-wa-cta>
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      <span>{t('wa.label')}</span>
+    </a>
+
     <script>
+      // Mobile menu
       const toggle = document.getElementById('menu-toggle');
       const menu = document.getElementById('mobile-menu');
       const close = document.getElementById('menu-close');
@@ -170,6 +209,52 @@ const currentPath = Astro.url.pathname;
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeMenu();
       });
+
+      // Scroll-reveal observer
+      const revealEls = document.querySelectorAll('[data-reveal]');
+      if (revealEls.length && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add('in'));
+      }
+
+      // Sticky WhatsApp CTA — show after hero leaves viewport
+      const cta = document.querySelector('[data-wa-cta]');
+      const hero = document.querySelector('.hero-cinematic');
+      if (cta) {
+        if (hero && 'IntersectionObserver' in window) {
+          const io2 = new IntersectionObserver(
+            ([entry]) => {
+              cta.classList.toggle('visible', !entry.isIntersecting);
+            },
+            { threshold: 0.1 },
+          );
+          io2.observe(hero);
+        } else {
+          cta.classList.add('visible');
+        }
+      }
+
+      // Respect reduced motion / save-data for hero video
+      const video = document.querySelector('.hero-cinematic__video');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // @ts-ignore
+      const saveData = navigator.connection?.saveData;
+      if (video && (reduced || saveData)) {
+        (video as HTMLVideoElement).pause();
+        (video as HTMLVideoElement).removeAttribute('autoplay');
+      }
     </script>
   </body>
 </html>

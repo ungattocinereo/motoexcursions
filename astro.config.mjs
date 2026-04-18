@@ -8,7 +8,23 @@ export default defineConfig({
   adapter: vercel(),
   output: 'static',
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  i18n: {
+    defaultLocale: 'en',
+    locales: [
+      'en',
+      'it',
+      { path: 'ua', codes: ['uk', 'uk-UA'] },
+    ],
+    routing: { prefixDefaultLocale: false },
+  },
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', it: 'it', ua: 'uk' },
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

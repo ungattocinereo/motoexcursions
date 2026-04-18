@@ -1,0 +1,16 @@
+---
+import TourDetailPage from '@/components/pages/TourDetailPage.astro';
+import { getTours, tourSlug, type Tour } from '@/lib/tours';
+
+export async function getStaticPaths() {
+  const tours = await getTours('ua');
+  return tours.map((tour) => ({
+    params: { slug: tourSlug(tour) },
+    props: { tour },
+  }));
+}
+
+const { tour } = Astro.props as { tour: Tour };
+---
+
+<TourDetailPage tour={tour} locale="ua" />

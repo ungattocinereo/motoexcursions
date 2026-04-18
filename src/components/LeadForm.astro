@@ -1,38 +1,55 @@
 ---
+import { useTranslations, dateLocale, type Locale } from '@/i18n/utils';
+
 interface Props {
   tourSlug: string;
   tourTitle: string;
   pageUrl: string;
+  locale: Locale;
   buttonLabel?: string;
+  showHeading?: boolean;
 }
 
-const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astro.props;
+const { tourSlug, tourTitle, pageUrl, locale, buttonLabel, showHeading = true } = Astro.props;
+const t = useTranslations(locale);
+const submitLabel = buttonLabel ?? t('form.submit');
 ---
 
-<form class="lead-form surface-card" data-lead-form style="padding: 1rem;">
-  <div class="section-head" style="margin-bottom: 0.5rem;">
-    <h2 style="font-size: 1.3rem;">Request this tour</h2>
-  </div>
+<form
+  class="lead-form surface-card"
+  data-lead-form
+  data-locale={locale}
+  data-label-sending={t('form.sending')}
+  data-label-success={t('form.success')}
+  data-label-error={t('form.error')}
+  style="padding: 1rem;"
+>
+  {showHeading ? (
+    <div class="section-head" style="margin-bottom: 0.5rem;">
+      <h2 style="font-size: 1.3rem;">{t('form.title')}</h2>
+    </div>
+  ) : null}
   <label>
-    Name *
+    {t('form.name')} *
     <input name="name" autocomplete="name" required />
   </label>
   <label>
-    Phone or WhatsApp *
+    {t('form.contact')} *
     <input name="contact" autocomplete="tel" required />
   </label>
   <label>
-    Preferred date
-    <input type="date" name="date" />
+    {t('form.date')}
+    <input type="date" name="date" lang={dateLocale[locale]} />
   </label>
   <label>
-    Message
-    <textarea name="message" placeholder="Any notes or requests"></textarea>
+    {t('form.message')}
+    <textarea name="message" placeholder={t('form.messagePlaceholder')}></textarea>
   </label>
 
   <input name="tourSlug" type="hidden" value={tourSlug} />
   <input name="tourTitle" type="hidden" value={tourTitle} />
   <input name="pageUrl" type="hidden" value={pageUrl} />
+  <input name="locale" type="hidden" value={locale} />
   <input
     name="honeypot"
     type="text"
@@ -42,7 +59,7 @@ const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astr
     style="position: absolute; left: -99999px; opacity: 0; width: 1px; height: 1px;"
   />
 
-  <button type="submit">{buttonLabel}</button>
+  <button type="submit">{submitLabel}</button>
   <p data-lead-status style="margin: 0; color: var(--muted);"></p>
 </form>
 
@@ -53,7 +70,10 @@ const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astr
   forms.forEach((form) => {
     const status = /** @type {HTMLElement | null} */ (form.querySelector('[data-lead-status]'));
     const submitButton = /** @type {HTMLButtonElement | null} */ (form.querySelector('button[type="submit"]'));
-    const originalButtonText = submitButton?.textContent ?? 'Request this tour';
+    const originalButtonText = submitButton?.textContent ?? '';
+    const sendingLabel = form.dataset.labelSending ?? 'Sending...';
+    const successLabel = form.dataset.labelSuccess ?? 'Thank you.';
+    const errorLabel = form.dataset.labelError ?? 'Could not send request.';
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -62,7 +82,7 @@ const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astr
 
       if (submitButton) {
         submitButton.disabled = true;
-        submitButton.textContent = 'Sending...';
+        submitButton.textContent = sendingLabel;
       }
       if (status) status.textContent = '';
 
@@ -78,13 +98,13 @@ const { tourSlug, tourTitle, pageUrl, buttonLabel = 'Request this tour' } = Astr
         const result = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-          throw new Error(result?.error ?? 'Request failed');
+          throw new Error(result?.error ?? errorLabel);
         }
 
-        if (status) status.textContent = 'Thank you. We will contact you shortly.';
+        if (status) status.textContent = successLabel;
         form.reset();
       } catch (error) {
-        if (status) status.textContent = error instanceof Error ? error.message : 'Could not send request.';
+        if (status) status.textContent = error instanceof Error ? error.message : errorLabel;
       } finally {
         if (submitButton) {
           submitButton.disabled = false;

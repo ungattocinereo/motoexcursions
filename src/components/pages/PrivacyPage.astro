@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { useTranslations, type Locale } from '@/i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<BaseLayout title={t('privacy.seoTitle')} description={t('privacy.seoDescription')} locale={locale}>
+  <section class="surface-card reveal" data-reveal style="margin-top: 1rem; padding: 1rem;">
+    <h1 style="margin-top: 0;">{t('privacy.heading')}</h1>
+    <p>{t('privacy.p1')}</p>
+    <p>{t('privacy.p2')}</p>
+    <p>
+      {t('privacy.emailLead')}
+      <a href="mailto:info@motoexcursions.it">info@motoexcursions.it</a>
+    </p>
+  </section>
+</BaseLayout>

@@ -1,28 +1,31 @@
 ---
 import SocialCard from './SocialCard.astro';
 import type { FeedItem } from '../lib/social/types';
+import { useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   title: string;
   source: FeedItem['source'];
   viewMoreUrl: string;
   items?: FeedItem[];
+  locale: Locale;
 }
 
-const { title, source, viewMoreUrl, items = [] } = Astro.props;
+const { title, source, viewMoreUrl, items = [], locale } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <section class="surface-card" style="padding: 0.85rem;" data-social-section={source}>
   <div class="section-head" style="margin-bottom: 0.6rem;">
     <h2 style="font-size: 1.2rem;">{title}</h2>
-    <a class="btn-outline" href={viewMoreUrl} target="_blank" rel="noopener noreferrer">View more</a>
+    <a class="btn-outline" href={viewMoreUrl} target="_blank" rel="noopener noreferrer">{t('social.viewMore')}</a>
   </div>
   <div class="social-row" data-social-row={source}>
     {
       items.length > 0 ? (
-        items.map((item) => <SocialCard item={item} />)
+        items.map((item) => <SocialCard item={item} locale={locale} />)
       ) : (
-        <p data-social-empty style="margin: 0; color: var(--muted);">Loading latest posts…</p>
+        <p data-social-empty style="margin: 0; color: var(--muted);">{t('social.loadingPosts')}</p>
       )
     }
   </div>

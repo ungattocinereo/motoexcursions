@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LeadForm from '@/components/LeadForm.astro';
+import ReviewList from '@/components/ReviewList.astro';
+import TourGalleryGrid from '@/components/TourGalleryGrid.astro';
+import { tourSlug, type Tour } from '@/lib/tours';
+import { useTranslations, type Locale } from '@/i18n/utils';
+
+interface Review {
+  author: string;
+  rating: number;
+  text: string;
+  date: string;
+  source: string;
+}
+
+interface Props {
+  tour: Tour;
+  locale: Locale;
+}
+
+const { tour, locale } = Astro.props;
+const t = useTranslations(locale);
+const { Content } = await tour.render();
+const slug = tourSlug(tour);
+
+const reviewFiles = import.meta.glob('../../content/tours/*.reviews.json', { eager: true });
+const reviewPath = `../../content/tours/${slug}.reviews.json`;
+const reviews = ((reviewFiles[reviewPath] as { default?: Review[] } | undefined)?.default ?? []) as Review[];
+---
+
+<BaseLayout title={tour.data.seoTitle} description={tour.data.seoDescription} image={tour.data.ogImage} locale={locale}>
+  <article style="margin-top: 1rem;">
+    <section class="hero-grid surface-card reveal" data-reveal style="overflow: hidden;">
+      <div class="hero-copy">
+        <p class="kicker">{tour.data.duration}</p>
+        <h1 style="margin: 0.35rem 0 0.7rem; font-size: clamp(1.7rem, 3vw + 0.95rem, 3.1rem);">{tour.data.title}</h1>
+        <p style="margin: 0; color: var(--muted);">{tour.data.excerpt}</p>
+
+        <div class="tour-meta" style="margin-top: 0.8rem;">
+          <span>{t('tourCard.priceFrom')} €{tour.data.priceFrom}</span>
+          <span>&bull;</span>
+          <span>{tour.data.meetingPoint}</span>
+        </div>
+
+        <ul style="margin: 0.9rem 0 0; padding-left: 1.1rem; color: var(--muted);">
+          {tour.data.highlights.map((highlight) => <li>{highlight}</li>)}
+        </ul>
+      </div>
+      <div class="hero-image">
+        <img src={tour.data.coverImage} alt={tour.data.title} loading="eager" decoding="async" />
+      </div>
+    </section>
+
+    <TourGalleryGrid
+      images={tour.data.gallery}
+      title={tour.data.title}
+      galleryId={slug}
+      locale={locale}
+      heading={t('gallery.heading')}
+    />
+
+    <section
+      class="surface-card reveal"
+      data-reveal
+      style="margin-top: 1.1rem; padding: 1rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"
+    >
+      <div>
+        <div class="section-head" style="margin-bottom: 0.6rem;">
+          <h2 style="font-size: 1.3rem;">{t('tourDetail.detailsHeading')}</h2>
+        </div>
+        <p style="margin: 0 0 0.5rem; color: var(--muted);"><strong>{t('tourDetail.route')}:</strong> {tour.data.route}</p>
+        <div class="prose" style="color: var(--muted);">
+          <Content />
+        </div>
+      </div>
+      <LeadForm
+        tourSlug={slug}
+        tourTitle={tour.data.title}
+        pageUrl={Astro.url.href}
+        locale={locale}
+      />
+    </section>
+
+    <div style="margin-top: 1rem;">
+      <ReviewList reviews={reviews} locale={locale} />
+    </div>
+  </article>
+</BaseLayout>

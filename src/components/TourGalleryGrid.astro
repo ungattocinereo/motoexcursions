@@ -1,28 +1,34 @@
 ---
+import { useTranslations, type Locale } from '@/i18n/utils';
+
 interface Props {
   images: string[];
   title: string;
   galleryId?: string;
+  locale: Locale;
+  heading?: string;
 }
 
-const { images, title, galleryId } = Astro.props;
+const { images, title, galleryId, locale, heading } = Astro.props;
+const t = useTranslations(locale);
 const safeId = `gallery-${(galleryId ?? title).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+const headingText = heading ?? 'Gallery';
 ---
 
 <section id={safeId} data-gallery-root>
   <div class="section-head" style="margin: 1.4rem 0 0.8rem;">
-    <h2 style="font-size: 1.3rem;">Gallery</h2>
+    <h2 style="font-size: 1.3rem;">{headingText}</h2>
   </div>
   <div class="gallery-grid">
     {images.map((image, index) => (
-      <button type="button" data-gallery-image={image} aria-label={`Open photo ${index + 1} of ${title}`}>
-        <img src={image} alt={`${title} photo ${index + 1}`} loading="lazy" decoding="async" />
+      <button type="button" data-gallery-image={image} aria-label={`${t('gallery.viewAlt')} ${index + 1} / ${title}`}>
+        <img src={image} alt={`${title} — ${index + 1}`} loading="lazy" decoding="async" />
       </button>
     ))}
   </div>
   <div class="lightbox" data-gallery-lightbox>
-    <button type="button" data-gallery-close aria-label="Close lightbox">×</button>
-    <img src="" alt="Expanded photo" data-gallery-expanded />
+    <button type="button" data-gallery-close aria-label="×">×</button>
+    <img src="" alt={title} data-gallery-expanded />
   </div>
 </section>
 

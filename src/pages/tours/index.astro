@@ -1,22 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
-import TourCard from '../../components/TourCard.astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const tours = (await getCollection('tours')).sort((a, b) => a.data.order - b.data.order);
+import ToursIndexPage from '@/components/pages/ToursIndexPage.astro';
 ---
 
-<BaseLayout title="Tours | Italia Moto Excursions" description="Browse all motorcycle tours in Naples, Vesuvius and Amalfi coast.">
-  <section style="margin-top: 1rem;">
-    <div class="section-head">
-      <div>
-        <p class="kicker" style="margin: 0;">All tours</p>
-        <h1 style="margin: 0.4rem 0 0;">Available routes</h1>
-      </div>
-    </div>
-
-    <div class="tour-grid">
-      {tours.map((tour) => <TourCard tour={tour} />)}
-    </div>
-  </section>
-</BaseLayout>
+<ToursIndexPage locale="en" />
