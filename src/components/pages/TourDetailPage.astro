@@ -1,10 +1,12 @@
 ---
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import LeadForm from '@/components/LeadForm.astro';
 import ReviewList from '@/components/ReviewList.astro';
+import TourCard from '@/components/TourCard.astro';
 import TourGalleryGrid from '@/components/TourGalleryGrid.astro';
-import { tourSlug, type Tour } from '@/lib/tours';
-import { useTranslations, type Locale } from '@/i18n/utils';
+import { getTours, tourSlug, type Tour } from '@/lib/tours';
+import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Review {
   author: string;
@@ -27,63 +29,291 @@ const slug = tourSlug(tour);
 const reviewFiles = import.meta.glob('../../content/tours/*.reviews.json', { eager: true });
 const reviewPath = `../../content/tours/${slug}.reviews.json`;
 const reviews = ((reviewFiles[reviewPath] as { default?: Review[] } | undefined)?.default ?? []) as Review[];
+
+const avgRating = reviews.length
+  ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+  : 5;
+const ratingDisplay = avgRating.toFixed(1);
+
+const allTours = await getTours(locale);
+const related = allTours.filter((tr) => tourSlug(tr) !== slug).slice(0, 2);
+
+const waText = `${t('wa.prefillTour')} ${tour.data.title}`;
+const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(waText)}`;
+
+const site = Astro.site ?? new URL('https://motoexcursions.it');
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: localizedPath('/', locale) },
+  { name: t('nav.tours'), url: localizedPath('/tours/', locale) },
+  { name: tour.data.title, url: tourPath(slug, locale) },
+];
+
+const highlightIcons = ['lucide:mountain', 'lucide:camera', 'lucide:leaf', 'lucide:map', 'lucide:star', 'lucide:compass'];
+
+// Structured data: TouristTrip + Product (with Offer) + AggregateRating + Review
+const trip: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristTrip',
+  '@id': new URL(tourPath(slug, locale), site).toString() + '#trip',
+  name: tour.data.title,
+  description: tour.data.seoDescription,
+  image: new URL(tour.data.coverImage, site).toString(),
+  touristType: 'Motorcycle passenger, couples, solo travellers',
+  url: new URL(tourPath(slug, locale), site).toString(),
+  provider: {
+    '@type': 'Organization',
+    name: 'Italia Moto Excursions',
+    url: site.toString(),
+  },
+  itinerary: {
+    '@type': 'ItemList',
+    itemListElement: tour.data.highlights.map((h, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: h,
+    })),
+  },
+  offers: {
+    '@type': 'Offer',
+    price: tour.data.priceFrom,
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+    url: new URL(tourPath(slug, locale), site).toString(),
+  },
+};
+
+if (reviews.length > 0) {
+  trip.aggregateRating = {
+    '@type': 'AggregateRating',
+    ratingValue: ratingDisplay,
+    reviewCount: reviews.length,
+    bestRating: 5,
+    worstRating: 1,
+  };
+  trip.review = reviews.map((r) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.author },
+    datePublished: r.date,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: r.rating,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    reviewBody: r.text,
+  }));
+}
 ---
 
-<BaseLayout title={tour.data.seoTitle} description={tour.data.seoDescription} image={tour.data.ogImage} locale={locale}>
-  <article style="margin-top: 1rem;">
-    <section class="hero-grid surface-card reveal" data-reveal style="overflow: hidden;">
-      <div class="hero-copy">
-        <p class="kicker">{tour.data.duration}</p>
-        <h1 style="margin: 0.35rem 0 0.7rem; font-size: clamp(1.7rem, 3vw + 0.95rem, 3.1rem);">{tour.data.title}</h1>
-        <p style="margin: 0; color: var(--muted);">{tour.data.excerpt}</p>
-
-        <div class="tour-meta" style="margin-top: 0.8rem;">
-          <span>{t('tourCard.priceFrom')} €{tour.data.priceFrom}</span>
-          <span>&bull;</span>
-          <span>{tour.data.meetingPoint}</span>
-        </div>
-
-        <ul style="margin: 0.9rem 0 0; padding-left: 1.1rem; color: var(--muted);">
-          {tour.data.highlights.map((highlight) => <li>{highlight}</li>)}
-        </ul>
+<BaseLayout
+  title={tour.data.seoTitle}
+  description={tour.data.seoDescription}
+  image={tour.data.ogImage}
+  locale={locale}
+  breadcrumbs={breadcrumbs}
+  jsonLd={trip}
+  keywords={[...tour.data.highlights, tour.data.title, 'motorcycle tour', 'Naples', 'Italy']}
+>
+  <article class="tour-detail">
+    <!-- ═══ HERO ═══ -->
+    <section class="tour-hero">
+      <div class="tour-hero__media">
+        <img src={tour.data.coverImage} alt={tour.data.title} loading="eager" fetchpriority="high" decoding="async" />
+        <div class="tour-hero__scrim"></div>
       </div>
-      <div class="hero-image">
-        <img src={tour.data.coverImage} alt={tour.data.title} loading="eager" decoding="async" />
+
+      <div class="tour-hero__content">
+        <nav class="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
+          <a href={localizedPath('/', locale)}>{t('nav.home')}</a>
+          <Icon name="lucide:chevron-right" aria-hidden="true" />
+          <a href={localizedPath('/tours/', locale)}>{t('nav.tours')}</a>
+          <Icon name="lucide:chevron-right" aria-hidden="true" />
+          <span aria-current="page">{tour.data.title}</span>
+        </nav>
+
+        <p class="tour-hero__kicker">
+          <Icon name="lucide:bike" aria-hidden="true" />
+          <span>{t('tourDetail.heroKicker')}</span>
+        </p>
+
+        <h1 class="tour-hero__title">{tour.data.title}</h1>
+        <p class="tour-hero__excerpt">{tour.data.excerpt}</p>
+
+        <div class="tour-hero__meta">
+          <div class="tour-hero__meta-item">
+            <Icon name="lucide:clock" aria-hidden="true" />
+            <span><strong>{tour.data.duration}</strong></span>
+          </div>
+          <div class="tour-hero__meta-item">
+            <Icon name="lucide:map-pin" aria-hidden="true" />
+            <span><strong>{tour.data.meetingPoint}</strong></span>
+          </div>
+          <div class="tour-hero__meta-item">
+            <Icon name="lucide:star" aria-hidden="true" />
+            <span><strong>{ratingDisplay}</strong> · {reviews.length} {t('reviews.heading').toLowerCase()}</span>
+          </div>
+          <div class="tour-hero__meta-item tour-hero__meta-item--price">
+            <Icon name="lucide:euro" aria-hidden="true" />
+            <span>{t('tourCard.priceFrom')} <strong>€{tour.data.priceFrom}</strong></span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <TourGalleryGrid
-      images={tour.data.gallery}
-      title={tour.data.title}
-      galleryId={slug}
-      locale={locale}
-      heading={t('gallery.heading')}
-    />
+    <!-- ═══ BODY + SIDEBAR ═══ -->
+    <div class="tour-body">
+      <div class="tour-body__main">
+        <!-- Highlights -->
+        <section class="surface-card tour-section reveal" data-reveal>
+          <h2 class="tour-section__title">
+            <Icon name="lucide:sparkles" aria-hidden="true" />
+            <span>{t('tourDetail.highlightsHeading')}</span>
+          </h2>
+          <ul class="highlights-grid">
+            {tour.data.highlights.map((highlight, i) => (
+              <li>
+                <span class="highlights-grid__icon">
+                  <Icon name={highlightIcons[i % highlightIcons.length]} aria-hidden="true" />
+                </span>
+                <span>{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-    <section
-      class="surface-card reveal"
-      data-reveal
-      style="margin-top: 1.1rem; padding: 1rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));"
-    >
-      <div>
-        <div class="section-head" style="margin-bottom: 0.6rem;">
-          <h2 style="font-size: 1.3rem;">{t('tourDetail.detailsHeading')}</h2>
-        </div>
-        <p style="margin: 0 0 0.5rem; color: var(--muted);"><strong>{t('tourDetail.route')}:</strong> {tour.data.route}</p>
-        <div class="prose" style="color: var(--muted);">
-          <Content />
+        <!-- Route / Details -->
+        <section class="surface-card tour-section reveal" data-reveal>
+          <h2 class="tour-section__title">
+            <Icon name="lucide:route" aria-hidden="true" />
+            <span>{t('tourDetail.routeHeading')}</span>
+          </h2>
+          <p class="tour-route">{tour.data.route}</p>
+          <div class="prose tour-prose">
+            <Content />
+          </div>
+        </section>
+
+        <!-- Gallery -->
+        <section class="surface-card tour-section reveal" data-reveal>
+          <h2 class="tour-section__title">
+            <Icon name="lucide:image" aria-hidden="true" />
+            <span>{t('gallery.heading')}</span>
+          </h2>
+          <TourGalleryGrid
+            images={tour.data.gallery}
+            title={tour.data.title}
+            galleryId={slug}
+            locale={locale}
+            heading=""
+          />
+        </section>
+
+        <!-- Reviews -->
+        <section class="surface-card tour-section reveal" data-reveal>
+          <div class="tour-section__header-row">
+            <h2 class="tour-section__title" style="margin:0;">
+              <Icon name="lucide:message-square-quote" aria-hidden="true" />
+              <span>{t('reviews.heading')}</span>
+            </h2>
+            {reviews.length > 0 && (
+              <span class="tour-section__rating-pill">
+                <Icon name="lucide:star" aria-hidden="true" />
+                <strong>{ratingDisplay}</strong>
+                <span>· {reviews.length}</span>
+              </span>
+            )}
+          </div>
+          <ReviewList reviews={reviews} locale={locale} hideHeading={true} />
+        </section>
+
+        <!-- Back link -->
+        <div class="tour-back">
+          <a href={localizedPath('/tours/', locale)} class="tour-back__link">
+            <Icon name="lucide:arrow-left" aria-hidden="true" />
+            <span>{t('tourDetail.backToTours')}</span>
+          </a>
         </div>
       </div>
-      <LeadForm
-        tourSlug={slug}
-        tourTitle={tour.data.title}
-        pageUrl={Astro.url.href}
-        locale={locale}
-      />
-    </section>
 
-    <div style="margin-top: 1rem;">
-      <ReviewList reviews={reviews} locale={locale} />
+      <!-- Sticky booking sidebar -->
+      <aside class="tour-sidebar">
+        <div class="booking-card surface-card reveal" data-reveal>
+          <div class="booking-card__price">
+            <span class="booking-card__price-label">{t('tourCard.priceFrom')}</span>
+            <span class="booking-card__price-value">€{tour.data.priceFrom}</span>
+            <span class="booking-card__price-unit">{t('tourCard.perPerson')}</span>
+          </div>
+
+          <ul class="booking-card__facts">
+            <li>
+              <Icon name="lucide:clock" aria-hidden="true" />
+              <div>
+                <span>{t('tourDetail.duration')}</span>
+                <strong>{tour.data.duration}</strong>
+              </div>
+            </li>
+            <li>
+              <Icon name="lucide:map-pin" aria-hidden="true" />
+              <div>
+                <span>{t('tourDetail.meetingPoint')}</span>
+                <strong>{tour.data.meetingPoint}</strong>
+              </div>
+            </li>
+            <li>
+              <Icon name="lucide:user" aria-hidden="true" />
+              <div>
+                <span>{t('tourDetail.groupSize')}</span>
+                <strong>{t('tourDetail.groupSizeValue')}</strong>
+              </div>
+            </li>
+            <li>
+              <Icon name="lucide:languages" aria-hidden="true" />
+              <div>
+                <span>{t('tourDetail.language')}</span>
+                <strong>{t('tourDetail.languageValue')}</strong>
+              </div>
+            </li>
+          </ul>
+
+          <div class="booking-card__ctas">
+            <a class="btn-solid booking-card__book" href="#lead-form">
+              <Icon name="lucide:calendar-check" aria-hidden="true" />
+              <span>{t('tourDetail.bookCta')}</span>
+            </a>
+            <a class="booking-card__wa" href={waHref} target="_blank" rel="noopener noreferrer">
+              <Icon name="lucide:message-circle" aria-hidden="true" />
+              <span>{t('tourDetail.whatsappCta')}</span>
+            </a>
+          </div>
+
+          <p class="booking-card__trust">
+            <Icon name="lucide:shield-check" aria-hidden="true" />
+            <span>{t('tourDetail.reviewsBadge')}</span>
+          </p>
+        </div>
+
+        <div id="lead-form" class="booking-form-wrap">
+          <LeadForm
+            tourSlug={slug}
+            tourTitle={tour.data.title}
+            pageUrl={Astro.url.href}
+            locale={locale}
+          />
+        </div>
+      </aside>
     </div>
+
+    <!-- ═══ RELATED ═══ -->
+    {related.length > 0 && (
+      <section class="tour-related">
+        <div class="section-head">
+          <h2>{t('tourDetail.relatedHeading')}</h2>
+        </div>
+        <div class="tour-grid">
+          {related.map((tr) => <TourCard tour={tr} locale={locale} />)}
+        </div>
+      </section>
+    )}
   </article>
 </BaseLayout>

@@ -11,6 +11,10 @@ interface Props {
   noIndex?: boolean;
   isHome?: boolean;
   locale: Locale;
+  keywords?: string[];
+  /** JSON-LD objects to render (Astro serializes as-is). */
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
@@ -20,6 +24,9 @@ const {
   noIndex = false,
   isHome = false,
   locale,
+  keywords,
+  jsonLd,
+  breadcrumbs,
 } = Astro.props;
 
 const t = useTranslations(locale);
@@ -42,17 +49,103 @@ const alternates = locales.map((code) => {
 const xDefault = new URL(localizedPath(currentPath, 'en'), site).toString();
 
 const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefill'))}`;
+
+const ogLocaleMap: Record<Locale, string> = { en: 'en_US', it: 'it_IT', ua: 'uk_UA' };
+const ogLocaleAlternates = locales.filter((l) => l !== locale).map((l) => ogLocaleMap[l]);
+
+const defaultKeywords = [
+  'moto excursions',
+  'motorcycle tours Naples',
+  'Vesuvius motorcycle tour',
+  'Amalfi coast motorcycle',
+  'private moto tour Italy',
+  'Naples motorbike guide',
+];
+const metaKeywords = (keywords?.length ? keywords : defaultKeywords).join(', ');
+
+// Organization JSON-LD (emitted on every page)
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristInformationCenter',
+  name: 'Italia Moto Excursions',
+  url: site.toString(),
+  logo: new URL('/images/2-logo-horisontal-transparency.png', site).toString(),
+  image: ogImage,
+  description: t('site.defaultDescription'),
+  telephone: '+39 334 720 0808',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Naples',
+    addressRegion: 'Campania',
+    addressCountry: 'IT',
+  },
+  areaServed: ['Naples', 'Vesuvius', 'Amalfi Coast', 'Sorrento', 'Pompeii'],
+  sameAs: [
+    'https://facebook.com/motodetki',
+    'https://www.instagram.com/italia_moto_excursions/',
+    'https://youtube.com/@Italia_moto_excursions',
+  ],
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Italia Moto Excursions',
+  url: site.toString(),
+  inLanguage: htmlLang[locale],
+};
+
+const breadcrumbsLd = breadcrumbs && breadcrumbs.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.name,
+        item: new URL(b.url, site).toString(),
+      })),
+    }
+  : null;
+
+const extraLd: Array<Record<string, unknown>> = [];
+if (Array.isArray(jsonLd)) extraLd.push(...jsonLd);
+else if (jsonLd) extraLd.push(jsonLd);
+
+const allLd = [orgLd, websiteLd, ...(breadcrumbsLd ? [breadcrumbsLd] : []), ...extraLd];
+
+const navItems = [
+  { href: localizedPath('/', locale), label: t('nav.home'), icon: 'lucide:home', match: (p: string) => p === localizedPath('/', locale) },
+  { href: localizedPath('/tours/', locale), label: t('nav.tours'), icon: 'lucide:map', match: (p: string) => p.includes('/tours') },
+  { href: localizedPath('/contact/', locale), label: t('nav.contact'), icon: 'lucide:mail', match: (p: string) => p.endsWith('/contact/') },
+];
 ---
 
 <!doctype html>
 <html lang={htmlLang[locale]}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="theme-color" content="#0a0a0e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light dark" />
+
     <title>{title}</title>
     <meta name="description" content={finalDescription} />
+    <meta name="keywords" content={metaKeywords} />
+    <meta name="author" content="Dima Brenych" />
+    <meta name="generator" content={Astro.generator} />
+
     <link rel="canonical" href={canonical} />
-    {noIndex ? <meta name="robots" content="noindex,nofollow" /> : <meta name="robots" content="index,follow" />}
+    {noIndex
+      ? <meta name="robots" content="noindex,nofollow" />
+      : <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.youtube.com" />
+    <link rel="dns-prefetch" href="https://wa.me" />
 
     {alternates.map((alt) => (
       <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
@@ -64,48 +157,65 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
     <meta property="og:description" content={finalDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="Italia Moto Excursions" />
-    <meta property="og:locale" content={locale === 'en' ? 'en_US' : locale === 'it' ? 'it_IT' : 'uk_UA'} />
+    <meta property="og:locale" content={ogLocaleMap[locale]} />
+    {ogLocaleAlternates.map((alt) => <meta property="og:locale:alternate" content={alt} />)}
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={finalDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={title} />
+    <meta name="twitter:site" content="@italia_moto_excursions" />
+    <meta name="twitter:creator" content="@italia_moto_excursions" />
 
-    <link rel="icon" type="image/png" href="/images/favicon-152.png" />
+    <meta name="geo.region" content="IT-72" />
+    <meta name="geo.placename" content="Naples" />
+    <meta name="geo.position" content="40.8518;14.2681" />
+    <meta name="ICBM" content="40.8518, 14.2681" />
+
+    <link rel="icon" type="image/png" href="/images/2-logo-horisontal-transparency.png" />
+    <link rel="apple-touch-icon" href="/images/2-logo-horisontal-transparency.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    {allLd.map((entry) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(entry)} />
+    ))}
   </head>
   <body>
-    <header class:list={["site-shell", { "nav-hero-overlay": isHome }]}>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class:list={["site-header site-shell", { "nav-hero-overlay": isHome }]}>
       <div class="top-nav">
-        <a class="brand-mark" href={localizedPath('/', locale)}>
-          <img src="/images/2-logo-horisontal-transparency.png" alt="Italia Moto Excursions" />
+        <a class="brand-mark" href={localizedPath('/', locale)} aria-label="Italia Moto Excursions — home">
+          <img src="/images/2-logo-horisontal-transparency.png" alt="Italia Moto Excursions" width="180" height="48" />
         </a>
 
         <nav class="nav-center" aria-label="Main navigation">
-          <a class:list={["nav-link", { active: currentPath === localizedPath('/', locale) }]} href={localizedPath('/', locale)}>{t('nav.home')}</a>
-          <a class:list={["nav-link", { active: currentPath.includes('/tours') }]} href={localizedPath('/tours/', locale)}>{t('nav.tours')}</a>
-          <a class:list={["nav-link", { active: currentPath.endsWith('/contact/') }]} href={localizedPath('/contact/', locale)}>{t('nav.contact')}</a>
+          {navItems.map((item) => (
+            <a
+              class:list={["nav-link", { active: item.match(currentPath) }]}
+              href={item.href}
+              aria-current={item.match(currentPath) ? 'page' : undefined}
+            >
+              <Icon name={item.icon} class="nav-link__icon" aria-hidden="true" />
+              <span>{item.label}</span>
+            </a>
+          ))}
         </nav>
 
         <div class="nav-right">
           <LangSwitch locale={locale} currentPath={currentPath} variant="nav" />
 
-          <div class="nav-social">
-            <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <Icon name="lucide:facebook" />
-            </a>
-            <a href="https://youtube.com/@Italia_moto_excursions" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <Icon name="lucide:youtube" />
-            </a>
-            <a href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <Icon name="lucide:instagram" />
-            </a>
-            <a href="https://wa.me/393347200808" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-              <Icon name="lucide:message-circle" />
-            </a>
-          </div>
+          <a class="nav-wa" href={waHref} target="_blank" rel="noopener noreferrer" aria-label={t('wa.label')}>
+            <Icon name="lucide:message-circle" aria-hidden="true" />
+            <span>{t('wa.label')}</span>
+          </a>
 
-          <button class="hamburger" id="menu-toggle" aria-label={t('nav.openMenu')} aria-expanded="false">
-            <span>{t('nav.menu')}</span>
+          <button class="hamburger" id="menu-toggle" aria-label={t('nav.openMenu')} aria-expanded="false" aria-controls="mobile-menu">
             <span class="hamburger-icon" aria-hidden="true">
               <span></span>
               <span></span>
@@ -117,38 +227,63 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
     </header>
 
     <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <div class="mobile-menu-header">
-        <button class="mobile-menu-close" id="menu-close" aria-label={t('nav.closeMenu')}>&times;</button>
-      </div>
-      <nav class="mobile-menu-nav">
-        <a href={localizedPath('/', locale)}>{t('nav.home')}</a>
-        <a href={localizedPath('/tours/', locale)}>{t('nav.tours')}</a>
-        <a href={localizedPath('/contact/', locale)}>{t('nav.contact')}</a>
-        <a href={localizedPath('/privacy/', locale)}>{t('nav.privacy')}</a>
-      </nav>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="mobile-menu-inner">
+        <div class="mobile-menu-header">
+          <a class="brand-mark" href={localizedPath('/', locale)} aria-label="Italia Moto Excursions — home">
+            <img src="/images/logo-horisontal-transparency-black.png" alt="Italia Moto Excursions" width="160" height="42" />
+          </a>
+          <button class="mobile-menu-close" id="menu-close" aria-label={t('nav.closeMenu')}>
+            <Icon name="lucide:x" aria-hidden="true" />
+          </button>
+        </div>
 
-      <div class="mobile-menu-lang">
-        <LangSwitch locale={locale} currentPath={currentPath} variant="mobile" />
-      </div>
+        <nav class="mobile-menu-nav" aria-label="Mobile navigation">
+          {navItems.map((item) => (
+            <a href={item.href} class:list={{ active: item.match(currentPath) }}>
+              <span class="mobile-menu-nav__icon" aria-hidden="true">
+                <Icon name={item.icon} />
+              </span>
+              <span class="mobile-menu-nav__label">{item.label}</span>
+              <span class="mobile-menu-nav__arrow" aria-hidden="true">
+                <Icon name="lucide:arrow-up-right" />
+              </span>
+            </a>
+          ))}
+          <a href={localizedPath('/privacy/', locale)} class:list={["mobile-menu-nav__minor", { active: currentPath.endsWith('/privacy/') }]}>
+            <span class="mobile-menu-nav__icon" aria-hidden="true">
+              <Icon name="lucide:shield-check" />
+            </span>
+            <span class="mobile-menu-nav__label">{t('nav.privacy')}</span>
+          </a>
+        </nav>
 
-      <div class="mobile-menu-social">
-        <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <Icon name="lucide:facebook" />
-        </a>
-        <a href="https://youtube.com/@Italia_moto_excursions" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <Icon name="lucide:youtube" />
-        </a>
-        <a href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <Icon name="lucide:instagram" />
-        </a>
-        <a href="https://wa.me/393347200808" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-          <Icon name="lucide:message-circle" />
-        </a>
+        <div class="mobile-menu-lang">
+          <LangSwitch locale={locale} currentPath={currentPath} variant="mobile" />
+        </div>
+
+        <div class="mobile-menu-cta">
+          <a class="btn-solid" href={waHref} target="_blank" rel="noopener noreferrer">
+            <Icon name="lucide:message-circle" aria-hidden="true" />
+            <span>{t('wa.label')}</span>
+          </a>
+        </div>
+
+        <div class="mobile-menu-social" aria-label="Social links">
+          <a href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <Icon name="lucide:instagram" />
+          </a>
+          <a href="https://facebook.com/motodetki" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <Icon name="lucide:facebook" />
+          </a>
+          <a href="https://youtube.com/@Italia_moto_excursions" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <Icon name="lucide:youtube" />
+          </a>
+        </div>
       </div>
     </div>
 
-    <main class="site-shell">
+    <main id="main-content" class="site-shell">
       <slot />
     </main>
 
@@ -181,7 +316,6 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
     </a>
 
     <script>
-      // Mobile menu
       const toggle = document.getElementById('menu-toggle');
       const menu = document.getElementById('mobile-menu');
       const close = document.getElementById('menu-close');
@@ -190,6 +324,7 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
         menu?.classList.add('open');
         menu?.setAttribute('aria-hidden', 'false');
         toggle?.setAttribute('aria-expanded', 'true');
+        toggle?.classList.add('is-active');
         document.body.style.overflow = 'hidden';
       }
 
@@ -197,6 +332,7 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
         menu?.classList.remove('open');
         menu?.setAttribute('aria-hidden', 'true');
         toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.classList.remove('is-active');
         document.body.style.overflow = '';
       }
 
@@ -210,6 +346,16 @@ const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefi
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeMenu();
       });
+
+      // Sticky-on-scroll header state (adds subtle bg when not over hero)
+      const header = document.querySelector('.site-header');
+      const onScroll = () => {
+        if (!header) return;
+        if (window.scrollY > 24) header.classList.add('is-scrolled');
+        else header.classList.remove('is-scrolled');
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
 
       // Scroll-reveal observer
       const revealEls = document.querySelectorAll('[data-reveal]');

@@ -13,12 +13,15 @@ const { images, title, galleryId, locale, heading } = Astro.props;
 const t = useTranslations(locale);
 const safeId = `gallery-${(galleryId ?? title).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 const headingText = heading ?? 'Gallery';
+const showHeading = headingText.trim().length > 0;
 ---
 
 <section id={safeId} data-gallery-root>
-  <div class="section-head" style="margin: 1.4rem 0 0.8rem;">
-    <h2 style="font-size: 1.3rem;">{headingText}</h2>
-  </div>
+  {showHeading && (
+    <div class="section-head" style="margin: 1.4rem 0 0.8rem;">
+      <h2 style="font-size: 1.3rem;">{headingText}</h2>
+    </div>
+  )}
   <div class="gallery-grid">
     {images.map((image, index) => (
       <button type="button" data-gallery-image={image} aria-label={`${t('gallery.viewAlt')} ${index + 1} / ${title}`}>

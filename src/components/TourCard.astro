@@ -1,28 +1,55 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { tourSlug, type Tour } from '@/lib/tours';
 import { tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   tour: Tour;
   locale: Locale;
+  featured?: boolean;
 }
 
-const { tour, locale } = Astro.props;
+const { tour, locale, featured = false } = Astro.props;
 const t = useTranslations(locale);
 const slug = tourSlug(tour);
+const href = tourPath(slug, locale);
 ---
 
-<article class="tour-card surface-card reveal" data-reveal>
-  <img src={tour.data.coverImage} alt={tour.data.title} loading="lazy" decoding="async" />
-  <div class="tour-card__content">
-    <p class="kicker">{tour.data.duration}</p>
-    <h3 style="margin: 0.2rem 0 0.45rem;">{tour.data.title}</h3>
-    <p style="margin: 0; color: var(--muted); line-height: 1.6;">{tour.data.excerpt}</p>
-    <div class="tour-meta" style="margin-top: 0.7rem;">
-      <span>{t('tourCard.priceFrom')} €{tour.data.priceFrom}</span>
-      <span>&bull;</span>
-      <span>{tour.data.meetingPoint}</span>
+<article class:list={["tour-card-modern", { 'tour-card-modern--featured': featured }]} data-reveal>
+  <a class="tour-card-modern__link" href={href} aria-label={`${tour.data.title} — ${tour.data.excerpt}`}>
+    <div class="tour-card-modern__media">
+      <img src={tour.data.coverImage} alt={tour.data.title} loading="lazy" decoding="async" />
+      <div class="tour-card-modern__badges">
+        <span class="tour-card-modern__badge tour-card-modern__badge--duration">
+          <Icon name="lucide:clock" aria-hidden="true" />
+          <span>{tour.data.duration}</span>
+        </span>
+        {featured && (
+          <span class="tour-card-modern__badge tour-card-modern__badge--featured">
+            <Icon name="lucide:sparkles" aria-hidden="true" />
+            <span>{t('tourCard.featured')}</span>
+          </span>
+        )}
+      </div>
+      <div class="tour-card-modern__price">
+        <span class="tour-card-modern__price-label">{t('tourCard.priceFrom')}</span>
+        <span class="tour-card-modern__price-value">€{tour.data.priceFrom}</span>
+      </div>
     </div>
-    <a class="btn-solid" style="margin-top: 1rem; display: inline-flex;" href={tourPath(slug, locale)}>{t('tourCard.open')}</a>
-  </div>
+
+    <div class="tour-card-modern__body">
+      <h3 class="tour-card-modern__title">{tour.data.title}</h3>
+      <p class="tour-card-modern__excerpt">{tour.data.excerpt}</p>
+
+      <ul class="tour-card-modern__meta" aria-label="Tour info">
+        <li><Icon name="lucide:map-pin" aria-hidden="true" /> <span>{tour.data.meetingPoint}</span></li>
+        <li><Icon name="lucide:route" aria-hidden="true" /> <span>{tour.data.highlights.length} {t('tourCard.highlights')}</span></li>
+      </ul>
+
+      <span class="tour-card-modern__cta">
+        <span>{t('tourCard.open')}</span>
+        <Icon name="lucide:arrow-right" aria-hidden="true" />
+      </span>
+    </div>
+  </a>
 </article>

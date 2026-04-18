@@ -1,8 +1,9 @@
 ---
+import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import TourCard from '@/components/TourCard.astro';
-import { getTours } from '@/lib/tours';
-import { useTranslations, type Locale } from '@/i18n/utils';
+import { getTours, tourSlug } from '@/lib/tours';
+import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -11,19 +12,109 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const tours = await getTours(locale);
+
+const site = Astro.site ?? new URL('https://motoexcursions.it');
+const toursPageUrl = new URL(localizedPath('/tours/', locale), site).toString();
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: localizedPath('/', locale) },
+  { name: t('nav.tours'), url: localizedPath('/tours/', locale) },
+];
+
+const itemListLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: t('tours.heading'),
+  url: toursPageUrl,
+  numberOfItems: tours.length,
+  itemListElement: tours.map((tour, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: new URL(tourPath(tourSlug(tour), locale), site).toString(),
+    name: tour.data.title,
+    image: new URL(tour.data.coverImage, site).toString(),
+  })),
+};
 ---
 
-<BaseLayout title={t('tours.seoTitle')} description={t('tours.seoDescription')} locale={locale}>
-  <section style="margin-top: 1rem;">
-    <div class="section-head">
+<BaseLayout
+  title={t('tours.seoTitle')}
+  description={t('tours.seoDescription')}
+  locale={locale}
+  breadcrumbs={breadcrumbs}
+  jsonLd={itemListLd}
+>
+  <section class="tours-hero">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={localizedPath('/', locale)}>
+        <Icon name="lucide:home" aria-hidden="true" />
+        <span>{t('nav.home')}</span>
+      </a>
+      <Icon name="lucide:chevron-right" aria-hidden="true" />
+      <span aria-current="page">{t('nav.tours')}</span>
+    </nav>
+
+    <div class="tours-hero__grid">
+      <div class="tours-hero__copy">
+        <p class="kicker">{t('tours.kicker')}</p>
+        <h1 class="tours-hero__title">{t('tours.heading')}</h1>
+        <p class="tours-hero__sub">{t('tours.seoDescription')}</p>
+
+        <ul class="tours-hero__stats" role="list">
+          <li>
+            <Icon name="lucide:route" aria-hidden="true" />
+            <div>
+              <strong>{tours.length}</strong>
+              <span>{t('hero.statRoutes')}</span>
+            </div>
+          </li>
+          <li>
+            <Icon name="lucide:users" aria-hidden="true" />
+            <div>
+              <strong>500+</strong>
+              <span>{t('hero.statRiders')}</span>
+            </div>
+          </li>
+          <li>
+            <Icon name="lucide:star" aria-hidden="true" />
+            <div>
+              <strong>5.0</strong>
+              <span>{t('hero.statRating')}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <ul class="tours-hero__chips" role="list">
+        <li><Icon name="lucide:shield-check" /> <span>{t('tours.chipPrivate')}</span></li>
+        <li><Icon name="lucide:camera" /> <span>{t('tours.chipPhoto')}</span></li>
+        <li><Icon name="lucide:calendar-check" /> <span>{t('tours.chipFlex')}</span></li>
+        <li><Icon name="lucide:bike" /> <span>{t('tours.chipPassenger')}</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="tours-grid-section">
+    <div class="tour-grid">
+      {tours.map((tour, i) => <TourCard tour={tour} locale={locale} featured={i === 0} />)}
+    </div>
+  </section>
+
+  <section class="tours-cta surface-card reveal" data-reveal>
+    <div class="tours-cta__body">
+      <div class="tours-cta__icon">
+        <Icon name="lucide:message-circle-heart" aria-hidden="true" />
+      </div>
       <div>
-        <p class="kicker" style="margin: 0;">{t('tours.kicker')}</p>
-        <h1 style="margin: 0.4rem 0 0;">{t('tours.heading')}</h1>
+        <h2>{t('tours.customHeading')}</h2>
+        <p>{t('tours.customText')}</p>
       </div>
     </div>
-
-    <div class="tour-grid">
-      {tours.map((tour) => <TourCard tour={tour} locale={locale} />)}
+    <div class="tours-cta__actions">
+      <a class="btn-solid" href={localizedPath('/contact/', locale)}>
+        {t('tours.customCta')}
+        <Icon name="lucide:arrow-right" aria-hidden="true" />
+      </a>
     </div>
   </section>
 </BaseLayout>
