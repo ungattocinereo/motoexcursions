@@ -1,0 +1,91 @@
+---
+import { Icon } from 'astro-icon/components';
+import { useTranslations, type Locale } from '@/i18n/utils';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+interface Channel {
+  name: string;
+  icon: string;
+  handle: string;
+  url: string;
+  description: string;
+  tint: string;
+}
+
+const channels: Channel[] = [
+  {
+    name: 'Instagram',
+    icon: 'lucide:instagram',
+    handle: '@italia_moto_excursions',
+    url: 'https://www.instagram.com/italia_moto_excursions/',
+    description: t('social.instagramDesc'),
+    tint: 'instagram',
+  },
+  {
+    name: 'Facebook',
+    icon: 'lucide:facebook',
+    handle: 'motodetki',
+    url: 'https://facebook.com/motodetki',
+    description: t('social.facebookDesc'),
+    tint: 'facebook',
+  },
+  {
+    name: 'YouTube',
+    icon: 'lucide:youtube',
+    handle: '@Italia_moto_excursions',
+    url: 'https://youtube.com/@Italia_moto_excursions',
+    description: t('social.youtubeDesc'),
+    tint: 'youtube',
+  },
+  {
+    name: 'WhatsApp',
+    icon: 'lucide:message-circle',
+    handle: '+39 334 7200 808',
+    url: 'https://wa.me/393347200808',
+    description: t('social.whatsappDesc'),
+    tint: 'whatsapp',
+  },
+];
+---
+
+<section class="social-links reveal" data-reveal style="margin-top: 2rem; padding-bottom: 2.5rem;">
+  <div class="section-head" style="margin-bottom: 1.2rem;">
+    <div>
+      <p class="kicker" style="margin: 0;">{t('social.kicker')}</p>
+      <h2 style="margin: 0.35rem 0 0.4rem;">{t('social.heading')}</h2>
+      <p style="margin: 0; color: var(--muted); max-width: 56ch;">{t('social.subtitle')}</p>
+    </div>
+  </div>
+
+  <div class="social-links__grid">
+    {channels.map((channel, i) => (
+      <a
+        class={`social-link-card social-link-card--${channel.tint} reveal`}
+        data-reveal
+        data-delay={(i % 3) + 1}
+        href={channel.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${t('social.openOn')} ${channel.name}`}
+      >
+        <span class="social-link-card__icon" aria-hidden="true">
+          <Icon name={channel.icon} />
+        </span>
+        <span class="social-link-card__body">
+          <strong>{channel.name}</strong>
+          <span class="social-link-card__handle">{channel.handle}</span>
+          <span class="social-link-card__desc">{channel.description}</span>
+        </span>
+        <span class="social-link-card__arrow" aria-hidden="true">
+          <Icon name="lucide:arrow-up-right" />
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
