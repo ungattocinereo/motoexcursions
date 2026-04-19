@@ -5,7 +5,7 @@ const tours = defineCollection({
   schema: z.object({
     title: z.string(),
     coverImage: z.string(),
-    gallery: z.array(z.string()),
+    gallery: z.array(z.string()).optional(),
     excerpt: z.string(),
     highlights: z.array(z.string()),
     duration: z.string(),

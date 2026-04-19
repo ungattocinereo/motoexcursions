@@ -6,65 +6,232 @@ interface Props {
   title: string;
   galleryId?: string;
   locale: Locale;
+  /** Number of items shown before "Show all N photos" CTA. */
+  initialCount?: number;
   heading?: string;
 }
 
-const { images, title, galleryId, locale, heading } = Astro.props;
+const { images, title, galleryId, locale, initialCount = 12, heading } = Astro.props;
 const t = useTranslations(locale);
+
 const safeId = `gallery-${(galleryId ?? title).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 const headingText = heading ?? 'Gallery';
 const showHeading = headingText.trim().length > 0;
+
+const total = images.length;
+const showToggle = total > initialCount;
+
+const showAllLabel = t('gallery.showAll').replace('{count}', String(total));
+const showLessLabel = t('gallery.showLess');
+const prevLabel = t('gallery.prev');
+const nextLabel = t('gallery.next');
+const closeLabel = t('gallery.close');
 ---
 
-<section id={safeId} data-gallery-root>
+<section id={safeId} class="gallery" data-gallery-root data-initial-count={initialCount}>
   {showHeading && (
-    <div class="section-head" style="margin: 1.4rem 0 0.8rem;">
-      <h2 style="font-size: 1.3rem;">{headingText}</h2>
+    <div class="section-head gallery__head">
+      <h2>{headingText}</h2>
     </div>
   )}
-  <div class="gallery-grid">
-    {images.map((image, index) => (
-      <button type="button" data-gallery-image={image} aria-label={`${t('gallery.viewAlt')} ${index + 1} / ${title}`}>
-        <img src={image} alt={`${title} — ${index + 1}`} loading="lazy" decoding="async" />
-      </button>
-    ))}
+
+  <div class="gallery__mosaic" role="list">
+    {images.map((src, index) => {
+      const isHidden = showToggle && index >= initialCount;
+      return (
+        <button
+          type="button"
+          role="listitem"
+          class="gallery__tile"
+          data-gallery-image={src}
+          data-gallery-index={index}
+          data-hidden={isHidden ? 'true' : undefined}
+          aria-label={`${t('gallery.viewAlt')} ${index + 1} / ${total}`}
+          style={`--i: ${index};`}
+        >
+          <img
+            src={src}
+            alt={`${title} — ${index + 1}`}
+            loading={index < 6 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+          <span class="gallery__tile-overlay" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.3-4.3"></path>
+              <path d="M11 8v6M8 11h6"></path>
+            </svg>
+          </span>
+        </button>
+      );
+    })}
   </div>
-  <div class="lightbox" data-gallery-lightbox>
-    <button type="button" data-gallery-close aria-label="×">×</button>
-    <img src="" alt={title} data-gallery-expanded />
+
+  {showToggle && (
+    <div class="gallery__toggle-wrap">
+      <button type="button" class="gallery__toggle" data-gallery-toggle
+        data-label-more={showAllLabel}
+        data-label-less={showLessLabel}>
+        <span>{showAllLabel}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </button>
+    </div>
+  )}
+
+  <!-- Lightbox -->
+  <div class="gallery-lightbox" data-gallery-lightbox aria-hidden="true" role="dialog" aria-modal="true" aria-label={title}>
+    <button type="button" class="gallery-lightbox__close" data-gallery-close aria-label={closeLabel}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <button type="button" class="gallery-lightbox__nav gallery-lightbox__nav--prev" data-gallery-prev aria-label={prevLabel}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </button>
+
+    <figure class="gallery-lightbox__stage">
+      <img data-gallery-expanded src="" alt={title} />
+      <figcaption class="gallery-lightbox__caption" data-gallery-caption>1 / {total}</figcaption>
+    </figure>
+
+    <button type="button" class="gallery-lightbox__nav gallery-lightbox__nav--next" data-gallery-next aria-label={nextLabel}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 6l6 6-6 6"></path>
+      </svg>
+    </button>
   </div>
 </section>
 
-<script is:inline define:vars={{ safeId }}>
+<script is:inline define:vars={{ safeId, counterTemplate: t('gallery.counter') }}>
   const root = document.getElementById(safeId);
-
   if (root) {
+    const tiles = Array.from(root.querySelectorAll('[data-gallery-image]'));
+    const sources = tiles.map((el) => el.getAttribute('data-gallery-image') || '');
     const lightbox = root.querySelector('[data-gallery-lightbox]');
     const expanded = root.querySelector('[data-gallery-expanded]');
+    const caption = root.querySelector('[data-gallery-caption]');
     const closeBtn = root.querySelector('[data-gallery-close]');
-    const triggers = root.querySelectorAll('[data-gallery-image]');
+    const prevBtn = root.querySelector('[data-gallery-prev]');
+    const nextBtn = root.querySelector('[data-gallery-next]');
+    const toggleBtn = root.querySelector('[data-gallery-toggle]');
+
+    let current = 0;
+    let isOpen = false;
+    const preloadCache = new Set();
+
+    const preload = (idx) => {
+      const src = sources[idx];
+      if (!src || preloadCache.has(src)) return;
+      const img = new Image();
+      img.src = src;
+      preloadCache.add(src);
+    };
+
+    const renderCounter = (i) => {
+      if (!caption) return;
+      caption.textContent = counterTemplate
+        .replace('{current}', String(i + 1))
+        .replace('{total}', String(sources.length));
+    };
+
+    const show = (idx) => {
+      const total = sources.length;
+      if (total === 0) return;
+      current = ((idx % total) + total) % total;
+      if (expanded) {
+        expanded.classList.add('is-loading');
+        expanded.setAttribute('src', sources[current]);
+      }
+      renderCounter(current);
+      preload((current + 1) % total);
+      preload((current - 1 + total) % total);
+    };
+
+    const open = (idx) => {
+      if (!lightbox) return;
+      isOpen = true;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      show(idx);
+    };
 
     const close = () => {
-      lightbox?.classList.remove('active');
+      if (!lightbox) return;
+      isOpen = false;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     };
 
-    triggers.forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        const src = trigger.getAttribute('data-gallery-image');
-        if (!src || !expanded || !lightbox) return;
-        expanded.setAttribute('src', src);
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
+    tiles.forEach((tile, idx) => {
+      tile.addEventListener('click', () => open(idx));
+    });
+
+    expanded?.addEventListener('load', () => {
+      expanded.classList.remove('is-loading');
     });
 
     closeBtn?.addEventListener('click', close);
+    prevBtn?.addEventListener('click', (e) => { e.stopPropagation(); show(current - 1); });
+    nextBtn?.addEventListener('click', (e) => { e.stopPropagation(); show(current + 1); });
+
     lightbox?.addEventListener('click', (event) => {
       if (event.target === lightbox) close();
     });
+
     document.addEventListener('keydown', (event) => {
+      if (!isOpen) return;
       if (event.key === 'Escape') close();
+      else if (event.key === 'ArrowRight') show(current + 1);
+      else if (event.key === 'ArrowLeft') show(current - 1);
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    let touchStartY = 0;
+    lightbox?.addEventListener('touchstart', (e) => {
+      const t = e.changedTouches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+    }, { passive: true });
+    lightbox?.addEventListener('touchend', (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) show(current + 1);
+        else show(current - 1);
+      }
+    }, { passive: true });
+
+    // Show more / less toggle
+    toggleBtn?.addEventListener('click', () => {
+      const isExpanded = root.getAttribute('data-expanded') === 'true';
+      if (isExpanded) {
+        root.removeAttribute('data-expanded');
+        tiles.forEach((tile, idx) => {
+          const initial = Number(root.getAttribute('data-initial-count') || '12');
+          if (idx >= initial) tile.setAttribute('data-hidden', 'true');
+        });
+        const label = toggleBtn.getAttribute('data-label-more') || '';
+        const span = toggleBtn.querySelector('span');
+        if (span) span.textContent = label;
+        toggleBtn.classList.remove('is-expanded');
+        root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        root.setAttribute('data-expanded', 'true');
+        tiles.forEach((tile) => tile.removeAttribute('data-hidden'));
+        const label = toggleBtn.getAttribute('data-label-less') || '';
+        const span = toggleBtn.querySelector('span');
+        if (span) span.textContent = label;
+        toggleBtn.classList.add('is-expanded');
+      }
     });
   }
 </script>

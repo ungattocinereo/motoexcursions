@@ -34,7 +34,7 @@ const finalDescription = description ?? t('site.defaultDescription');
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
 const canonical = new URL(Astro.url.pathname, site).toString();
-const ogImage = image ? new URL(image, site).toString() : new URL('/images/tours/vesuvius/IMG_4900.jpg', site).toString();
+const ogImage = image ? new URL(image, site).toString() : new URL('/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp', site).toString();
 const currentPath = Astro.url.pathname;
 
 const alternates = locales.map((code) => {
@@ -184,6 +184,15 @@ const navItems = [
     {allLd.map((entry) => (
       <script type="application/ld+json" is:inline set:html={JSON.stringify(entry)} />
     ))}
+
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-28JB8G358C"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-28JB8G358C');
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>

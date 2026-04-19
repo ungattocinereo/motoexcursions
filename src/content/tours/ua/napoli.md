@@ -1,19 +1,6 @@
 ---
 title: "Тур Неаполем"
-coverImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
-gallery:
-  - "/images/tours/napoli/Naples-italia-moto-excursions-01.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-02.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-03.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-04.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-05.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-06.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-07.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-08.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-09.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-010.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-011.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-012.jpg"
+coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 excerpt: "Відкрий Неаполь очима місцевого: легендарні вулиці, панорами та приховані місця."
 highlights:
   - "Історичний центр і оглядові точки набережної"
@@ -25,7 +12,7 @@ meetingPoint: "Центр Неаполя"
 route: "Історичний центр → приморський променад → панорамні тераси"
 seoTitle: "Мототур Неаполем | Italia Moto Excursions"
 seoDescription: "Відкрий Неаполь з місцевим мотогідом — іконічні райони й панорамні види на місто."
-ogImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
+ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 order: 2
 ---
 

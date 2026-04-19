@@ -5,7 +5,7 @@ import LeadForm from '@/components/LeadForm.astro';
 import ReviewList from '@/components/ReviewList.astro';
 import TourCard from '@/components/TourCard.astro';
 import TourGalleryGrid from '@/components/TourGalleryGrid.astro';
-import { getTours, tourSlug, type Tour } from '@/lib/tours';
+import { getTours, getTourGallery, tourSlug, type Tour } from '@/lib/tours';
 import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Review {
@@ -25,6 +25,9 @@ const { tour, locale } = Astro.props;
 const t = useTranslations(locale);
 const { Content } = await tour.render();
 const slug = tourSlug(tour);
+const galleryImages = getTourGallery(slug).length > 0
+  ? getTourGallery(slug)
+  : (tour.data.gallery ?? []);
 
 const reviewFiles = import.meta.glob('../../content/tours/*.reviews.json', { eager: true });
 const reviewPath = `../../content/tours/${slug}.reviews.json`;
@@ -201,7 +204,7 @@ if (reviews.length > 0) {
             <span>{t('gallery.heading')}</span>
           </h2>
           <TourGalleryGrid
-            images={tour.data.gallery}
+            images={galleryImages}
             title={tour.data.title}
             galleryId={slug}
             locale={locale}

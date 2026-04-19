@@ -1,22 +1,6 @@
 ---
 title: "Екскурсія узбережжям Амальфі"
-coverImage: "/images/tours/amalfi/Amalfi-italia-moto-excursions-hero-1.webp"
-gallery:
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-01.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-02.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-03.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-04.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-05.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-06.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-07.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-08.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-09.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-010.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-011.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-012.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-013.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-014.jpg"
-  - "/images/tours/amalfi/Amalfi-italia-moto-excursions-015.jpg"
+coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
 excerpt: "Подорож узбережжям Амальфі з кінематографічними морськими краєвидами та легендарними дорогами на скелях."
 highlights:
   - "Найкращі панорамні дороги узбережжя"
@@ -28,7 +12,7 @@ meetingPoint: "Центр Неаполя"
 route: "Неаполь → дорога узбережжя Амальфі → мальовничі містечка й оглядові точки"
 seoTitle: "Мотоекскурсія узбережжям Амальфі | Italia Moto Excursions"
 seoDescription: "Приватна мотоекскурсія узбережжям Амальфі з місцевим гідом і маршрутом, створеним для фото."
-ogImage: "/images/tours/amalfi/Amalfi-italia-moto-excursions-hero-1.webp"
+ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
 order: 3
 ---
 

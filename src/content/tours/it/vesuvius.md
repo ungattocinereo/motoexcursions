@@ -1,16 +1,6 @@
 ---
 title: "In cima al Vesuvio"
-coverImage: "/images/tours/vesuvius/IMG_4900.jpg"
-gallery:
-  - "/images/tours/vesuvius/IMG_3886.jpg"
-  - "/images/tours/vesuvius/IMG_4360.jpg"
-  - "/images/tours/vesuvius/IMG_5828.jpg"
-  - "/images/tours/vesuvius/IMG_5870.jpg"
-  - "/images/tours/vesuvius/IMG_6376.jpg"
-  - "/images/tours/vesuvius/IMG_6377.jpg"
-  - "/images/tours/vesuvius/IMG_6399.jpg"
-  - "/images/tours/vesuvius/IMG_9646.jpg"
-  - "/images/tours/vesuvius/IMG_5846.jpg"
+coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
 excerpt: "Giro serale fino al cratere del Vesuvio con panorami sulla valle di Napoli."
 highlights:
   - "Punto panoramico al tramonto sul Vesuvio"
@@ -22,7 +12,7 @@ meetingPoint: "Centro di Napoli"
 route: "Centro di Napoli → strada panoramica del Vesuvio → punto di osservazione del cratere"
 seoTitle: "Tour in moto al Vesuvio da Napoli | Italia Moto Excursions"
 seoDescription: "Sali al Vesuvio all'ora dorata e goditi panorami su Napoli con una guida locale."
-ogImage: "/images/tours/vesuvius/IMG_4900.jpg"
+ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
 order: 1
 ---
 

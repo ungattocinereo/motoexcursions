@@ -1,19 +1,6 @@
 ---
 title: "Tour di Napoli"
-coverImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
-gallery:
-  - "/images/tours/napoli/Naples-italia-moto-excursions-01.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-02.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-03.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-04.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-05.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-06.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-07.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-08.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-09.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-010.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-011.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-012.jpg"
+coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 excerpt: "Scopri Napoli con lo sguardo di un locale: vicoli iconici, panorami e luoghi nascosti."
 highlights:
   - "Centro storico e punti panoramici sul lungomare"
@@ -25,7 +12,7 @@ meetingPoint: "Centro di Napoli"
 route: "Centro storico → lungomare → terrazze panoramiche"
 seoTitle: "Tour in moto di Napoli | Italia Moto Excursions"
 seoDescription: "Scopri Napoli con una guida locale in moto, quartieri iconici e panorami sulla città."
-ogImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
+ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 order: 2
 ---
 

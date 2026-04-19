@@ -1,19 +1,6 @@
 ---
 title: "Napoli Tour"
-coverImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
-gallery:
-  - "/images/tours/napoli/Naples-italia-moto-excursions-01.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-02.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-03.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-04.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-05.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-06.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-07.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-08.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-09.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-010.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-011.jpg"
-  - "/images/tours/napoli/Naples-italia-moto-excursions-012.jpg"
+coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 excerpt: "Discover Naples from a local perspective with iconic streets, panoramas, and hidden spots."
 highlights:
   - "Historic center and waterfront viewpoints"
@@ -25,7 +12,7 @@ meetingPoint: "Naples city center"
 route: "Historic center → seaside promenade → panoramic terraces"
 seoTitle: "Napoli Moto Tour | Italia Moto Excursions"
 seoDescription: "Explore Naples with a local rider guide, iconic districts, and panoramic city viewpoints."
-ogImage: "/images/tours/napoli/Naples-italia-moto-excursions-hero-1.jpg"
+ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
 order: 2
 ---
 
