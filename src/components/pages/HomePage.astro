@@ -116,13 +116,22 @@ const galleryImages = [
   <!-- ═══ YouTube Intro / About Dima ═══ -->
   <section class="intro-section">
     <div class="intro-video">
-      <iframe
-        src="https://www.youtube.com/embed/uF6Up6p3y9Q"
-        title={t('intro.videoTitle')}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-        loading="lazy"
-      ></iframe>
+      <button
+        type="button"
+        class="yt-lite"
+        data-yt-id="AF9H8nreywo"
+        data-yt-title={t('intro.videoTitle')}
+        aria-label={t('intro.videoTitle')}
+        style="background-image: url('https://i.ytimg.com/vi/AF9H8nreywo/maxresdefault.jpg')"
+      >
+        <span class="yt-lite__shade" aria-hidden="true"></span>
+        <span class="yt-lite__play" aria-hidden="true">
+          <svg width="68" height="48" viewBox="0 0 68 48">
+            <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74 0 13.05 0 24 0 24s0 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C68 34.95 68 24 68 24s0-10.95-1.48-16.26z" fill="#f00"/>
+            <path d="M45 24 27 14v20" fill="#fff"/>
+          </svg>
+        </span>
+      </button>
     </div>
     <div class="intro-text">
       <h2>{t('intro.heading')}</h2>
@@ -208,6 +217,19 @@ const galleryImages = [
     <img src="" alt="" />
     <button aria-label="×">&times;</button>
   </div>
+
+  <!-- Cinema-mode YouTube dialog -->
+  <dialog class="yt-cinema" id="yt-cinema" aria-label="Video player">
+    <div class="yt-cinema__frame">
+      <div class="yt-cinema__embed" data-yt-embed></div>
+      <button type="button" class="yt-cinema__close" data-yt-close aria-label="Close video">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </dialog>
 </BaseLayout>
 
 <script is:inline>
@@ -241,5 +263,51 @@ const galleryImages = [
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox?.classList.contains('active')) closeLightbox();
+  });
+
+  // Cinema-mode YouTube: open <dialog> with iframe on poster click
+  const ytCinema = document.getElementById('yt-cinema');
+  const ytEmbed = ytCinema?.querySelector('[data-yt-embed]');
+  const ytClose = ytCinema?.querySelector('[data-yt-close]');
+
+  function openCinema(id, title) {
+    if (!ytCinema || !ytEmbed) return;
+    ytEmbed.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`);
+    iframe.setAttribute('title', title);
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+    ytEmbed.appendChild(iframe);
+    ytCinema.showModal();
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => ytCinema.classList.add('is-open'));
+  }
+
+  function closeCinema() {
+    if (!ytCinema) return;
+    ytCinema.classList.remove('is-open');
+    setTimeout(() => {
+      ytCinema.close();
+      if (ytEmbed) ytEmbed.innerHTML = '';
+      document.body.style.overflow = '';
+    }, 220);
+  }
+
+  document.querySelectorAll('.yt-lite').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-yt-id');
+      const title = btn.getAttribute('data-yt-title') || 'Video';
+      if (id) openCinema(id, title);
+    });
+  });
+
+  ytClose?.addEventListener('click', closeCinema);
+  ytCinema?.addEventListener('cancel', (e) => {
+    e.preventDefault();
+    closeCinema();
+  });
+  ytCinema?.addEventListener('click', (e) => {
+    if (e.target === ytCinema) closeCinema();
   });
 </script>
