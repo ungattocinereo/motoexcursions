@@ -68,21 +68,23 @@ const galleryImages = [
         </h1>
         <p class="hero-cinematic__subtitle">{t('hero.subtitle')}</p>
         <div class="hero-cinematic__cta">
-          <a class="btn-solid" href={localizedPath('/contact/', locale)}>{t('hero.ctaBook')}</a>
           <a class="btn-ghost" href={localizedPath('/tours/', locale)}>
             {t('hero.ctaExplore')}
             <Icon name="lucide:arrow-right" width={18} height={18} />
           </a>
+          <a class="btn-solid" href={localizedPath('/contact/', locale)}>{t('hero.ctaBook')}</a>
         </div>
       </div>
 
       <div class="hero-cinematic__right">
         <div class="hero-cinematic__card">
-          <img src="/images/motoexcursions-it-dima2.webp" alt={t('hero.cardName')} loading="eager" decoding="async" />
-          <div class="hero-cinematic__card-info">
-            <strong>{t('hero.cardName')}</strong>
-            <span>{t('hero.cardRole')}</span>
-          </div>
+          <a class="hero-cinematic__card-link" href={localizedPath('/tours/', locale)} aria-label={t('hero.ctaExplore')}>
+            <img src="/images/motoexcursions-it-dima2.webp" alt={t('hero.cardName')} loading="eager" decoding="async" />
+            <div class="hero-cinematic__card-info">
+              <strong>{t('hero.cardName')}</strong>
+              <span>{t('hero.cardRole')}</span>
+            </div>
+          </a>
           <a class="hero-cinematic__card-ig" href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label={t('hero.cardFollow')}>
             <Icon name="lucide:instagram" width={16} height={16} />
           </a>

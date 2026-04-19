@@ -644,6 +644,23 @@ img {
   position: relative;
 }
 
+.hero-cinematic__card-link {
+  display: contents;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-cinematic__card-link img,
+.hero-cinematic__card-link .hero-cinematic__card-info {
+  cursor: pointer;
+}
+
+.hero-cinematic__card-link:hover .hero-cinematic__card-info strong {
+  color: var(--gold);
+  transition: color 200ms;
+}
+
 .hero-cinematic__card img {
   width: 156px;
   height: auto;
