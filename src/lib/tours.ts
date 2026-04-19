@@ -6,18 +6,20 @@ import type { Locale } from '@/i18n/utils';
 export type Tour = CollectionEntry<'tours'>;
 
 const IMAGE_EXTENSIONS = /\.(webp|jpe?g|png|avif)$/i;
+const MAIN_SUFFIX = /-main\.[^.]+$/i;
 
 /**
  * Auto-discover gallery images for a tour by reading
- * `public/images/tours/<slug>/`. Sorted alphabetically so zero-padded
- * filenames (e.g. `…-00001.webp`) keep their intended order. Runs at build
- * time only — safe because Astro's output is static.
+ * `public/images/tours/<slug>/`. Files whose name ends with `-main.<ext>`
+ * are treated as the hero/cover image and excluded from the gallery.
+ * Sorted numerically so zero-padded filenames preserve order. Runs at
+ * build time only — safe because Astro's output is static.
  */
 export function getTourGallery(slug: string): string[] {
   const dir = resolve(process.cwd(), 'public', 'images', 'tours', slug);
   try {
     return readdirSync(dir)
-      .filter((name) => IMAGE_EXTENSIONS.test(name))
+      .filter((name) => IMAGE_EXTENSIONS.test(name) && !MAIN_SUFFIX.test(name))
       .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
       .map((name) => `/images/tours/${slug}/${name}`);
   } catch {

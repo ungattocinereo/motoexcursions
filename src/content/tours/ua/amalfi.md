@@ -1,6 +1,6 @@
 ---
 title: "Екскурсія узбережжям Амальфі"
-coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
+coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
 excerpt: "Подорож узбережжям Амальфі з кінематографічними морськими краєвидами та легендарними дорогами на скелях."
 highlights:
   - "Найкращі панорамні дороги узбережжя"
@@ -12,7 +12,7 @@ meetingPoint: "Центр Неаполя"
 route: "Неаполь → дорога узбережжя Амальфі → мальовничі містечка й оглядові точки"
 seoTitle: "Мотоекскурсія узбережжям Амальфі | Italia Moto Excursions"
 seoDescription: "Приватна мотоекскурсія узбережжям Амальфі з місцевим гідом і маршрутом, створеним для фото."
-ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
+ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
 order: 3
 ---
 

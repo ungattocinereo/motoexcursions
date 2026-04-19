@@ -1,6 +1,6 @@
 ---
 title: "На вершині Везувію"
-coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
+coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 excerpt: "Вечірня поїздка до кратера Везувію з панорамою долини Неаполя."
 highlights:
   - "Оглядова точка Везувію на заході сонця"
@@ -12,7 +12,7 @@ meetingPoint: "Центр Неаполя"
 route: "Центр Неаполя → панорамна дорога Везувію → оглядова точка кратера"
 seoTitle: "Мототур до Везувію з Неаполя | Italia Moto Excursions"
 seoDescription: "Подорож до Везувію у золоту годину з місцевим гідом і панорамами Неаполя."
-ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
+ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 order: 1
 ---
 

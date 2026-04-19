@@ -1,6 +1,6 @@
 ---
 title: "Тур Неаполем"
-coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
+coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.webp"
 excerpt: "Відкрий Неаполь очима місцевого: легендарні вулиці, панорами та приховані місця."
 highlights:
   - "Історичний центр і оглядові точки набережної"
@@ -12,7 +12,7 @@ meetingPoint: "Центр Неаполя"
 route: "Історичний центр → приморський променад → панорамні тераси"
 seoTitle: "Мототур Неаполем | Italia Moto Excursions"
 seoDescription: "Відкрий Неаполь з місцевим мотогідом — іконічні райони й панорамні види на місто."
-ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00001.webp"
+ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.webp"
 order: 2
 ---
 

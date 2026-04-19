@@ -1,6 +1,6 @@
 ---
 title: "Top of the Vesuvius"
-coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
+coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 excerpt: "Evening ride to Vesuvius crater with panoramic views over Naples valley."
 highlights:
   - "Sunset viewpoint at Vesuvius"
@@ -12,7 +12,7 @@ meetingPoint: "Naples city center"
 route: "Naples center → Vesuvius panoramic road → crater viewpoint"
 seoTitle: "Vesuvius Moto Tour from Naples | Italia Moto Excursions"
 seoDescription: "Ride to Vesuvius at golden hour and enjoy panoramic Naples views with a local guide."
-ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp"
+ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 order: 1
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Escursione in Costiera Amalfitana"
-coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
+coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
 excerpt: "Percorri la Costiera Amalfitana con viste cinematografiche sul mare e le iconiche strade a picco."
 highlights:
   - "Le migliori strade panoramiche della costa"
@@ -12,7 +12,7 @@ meetingPoint: "Centro di Napoli"
 route: "Napoli → Strada della Costiera Amalfitana → borghi e punti panoramici"
 seoTitle: "Escursione in moto in Costiera Amalfitana | Italia Moto Excursions"
 seoDescription: "Escursione in moto privata in Costiera Amalfitana con guida locale e itinerario pensato per le foto."
-ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00001.webp"
+ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
 order: 3
 ---
 

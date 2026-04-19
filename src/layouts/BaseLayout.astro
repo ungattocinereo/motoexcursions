@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { Icon } from 'astro-icon/components';
+import Analytics from '@vercel/analytics/astro';
 import LangSwitch from '@/components/LangSwitch.astro';
 import { htmlLang, localizedPath, useTranslations, type Locale, locales } from '@/i18n/utils';
 
@@ -34,7 +35,7 @@ const finalDescription = description ?? t('site.defaultDescription');
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
 const canonical = new URL(Astro.url.pathname, site).toString();
-const ogImage = image ? new URL(image, site).toString() : new URL('/images/tours/vesuvius/motoexcursions-vesuvius-tour-00001.webp', site).toString();
+const ogImage = image ? new URL(image, site).toString() : new URL('/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp', site).toString();
 const currentPath = Astro.url.pathname;
 
 const alternates = locales.map((code) => {
@@ -318,6 +319,8 @@ const navItems = [
         </div>
       </div>
     </footer>
+
+    <Analytics />
 
     <a class="wa-cta" href={waHref} aria-label={t('wa.label')} target="_blank" rel="noopener noreferrer" data-wa-cta>
       <Icon name="lucide:message-circle" aria-hidden="true" />
