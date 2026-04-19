@@ -32,6 +32,7 @@ const t = useTranslations(locale);
     <div class="review-list__items">
       {reviews.map((review) => {
         const safeRating = Math.max(1, Math.min(5, review.rating));
+        const isFacebook = review.source === 'facebook';
         return (
           <article class="review-card">
             <header class="review-card__head">
@@ -40,7 +41,15 @@ const t = useTranslations(locale);
               </span>
               <div class="review-card__who">
                 <strong>{review.author}</strong>
-                <span>{formatDate(review.date, locale)}</span>
+                <span class="review-card__meta">
+                  <span>{formatDate(review.date, locale)}</span>
+                  {isFacebook && (
+                    <span class="review-card__source" title={t('reviews.sourceFacebook')}>
+                      <Icon name="lucide:facebook" aria-hidden="true" />
+                      <span>{t('reviews.sourceFacebook')}</span>
+                    </span>
+                  )}
+                </span>
               </div>
               <div class="review-card__stars" aria-label={`${safeRating} / 5`}>
                 {Array.from({ length: safeRating }).map(() => (

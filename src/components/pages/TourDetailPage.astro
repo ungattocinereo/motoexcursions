@@ -298,10 +298,9 @@ if (reviews.length > 0) {
 
         <div id="lead-form" class="booking-form-wrap">
           <LeadForm
-            tourSlug={slug}
-            tourTitle={tour.data.title}
-            pageUrl={Astro.url.href}
             locale={locale}
+            pageUrl={Astro.url.href}
+            preselectedTourTitle={tour.data.title}
           />
         </div>
       </aside>

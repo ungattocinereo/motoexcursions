@@ -1,116 +1,133 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { useTranslations, dateLocale, type Locale } from '@/i18n/utils';
 
-interface Props {
-  tourSlug: string;
-  tourTitle: string;
-  pageUrl: string;
-  locale: Locale;
-  buttonLabel?: string;
-  showHeading?: boolean;
+interface TourOption {
+  slug: string;
+  title: string;
 }
 
-const { tourSlug, tourTitle, pageUrl, locale, buttonLabel, showHeading = true } = Astro.props;
+interface Props {
+  locale: Locale;
+  pageUrl: string;
+  /** List of tours for the dropdown. Omit (or leave empty) when `preselectedTourTitle` is used. */
+  tours?: TourOption[];
+  /** If set, the tour is fixed (no dropdown) — used on tour detail pages. */
+  preselectedTourTitle?: string;
+}
+
+const { locale, tours, preselectedTourTitle } = Astro.props;
 const t = useTranslations(locale);
-const submitLabel = buttonLabel ?? t('form.submit');
+
+const waPhone = '393347200808';
+const showDropdown = !preselectedTourTitle && Array.isArray(tours) && tours.length > 0;
 ---
 
 <form
-  class="lead-form surface-card"
-  data-lead-form
-  data-locale={locale}
-  data-label-sending={t('form.sending')}
-  data-label-success={t('form.success')}
-  data-label-error={t('form.error')}
+  class="lead-form surface-card wa-form"
+  data-wa-form
+  data-wa-phone={waPhone}
+  data-wa-greeting-book={t('form.waGreetingBook')}
+  data-wa-greeting-general={t('form.waGreetingGeneral')}
+  data-wa-label-tour={t('form.waTour')}
+  data-wa-label-date={t('form.waDate')}
+  data-wa-label-note={t('form.waNote')}
+  data-wa-preselected={preselectedTourTitle ?? ''}
+  data-wa-sent-from={t('form.sentFrom')}
+  data-wa-locale={locale}
   style="padding: 1rem;"
 >
-  {showHeading ? (
-    <div class="section-head" style="margin-bottom: 0.5rem;">
-      <h2 style="font-size: 1.3rem;">{t('form.title')}</h2>
-    </div>
-  ) : null}
-  <label>
-    {t('form.name')} *
-    <input name="name" autocomplete="name" required />
-  </label>
-  <label>
-    {t('form.contact')} *
-    <input name="contact" autocomplete="tel" required />
-  </label>
+  {showDropdown && (
+    <label>
+      {t('form.tour')}
+      <select name="tour" data-wa-tour>
+        <option value="">{t('form.chooseTour')}</option>
+        {tours!.map((tour) => (
+          <option value={tour.title}>{tour.title}</option>
+        ))}
+        <option value="__custom__">{t('form.tourCustom')}</option>
+      </select>
+    </label>
+  )}
+
   <label>
     {t('form.date')}
-    <input type="date" name="date" lang={dateLocale[locale]} />
+    <input type="date" name="date" lang={dateLocale[locale]} data-wa-date />
   </label>
+
   <label>
-    {t('form.message')}
-    <textarea name="message" placeholder={t('form.messagePlaceholder')}></textarea>
+    {t('form.note')}
+    <input
+      type="text"
+      name="note"
+      data-wa-note
+      placeholder={t('form.notePlaceholder')}
+      maxlength="240"
+      autocomplete="off"
+    />
   </label>
 
-  <input name="tourSlug" type="hidden" value={tourSlug} />
-  <input name="tourTitle" type="hidden" value={tourTitle} />
-  <input name="pageUrl" type="hidden" value={pageUrl} />
-  <input name="locale" type="hidden" value={locale} />
-  <input
-    name="honeypot"
-    type="text"
-    autocomplete="off"
-    tabindex="-1"
-    aria-hidden="true"
-    style="position: absolute; left: -99999px; opacity: 0; width: 1px; height: 1px;"
-  />
-
-  <button type="submit">{submitLabel}</button>
-  <p data-lead-status style="margin: 0; color: var(--muted);"></p>
+  <button type="submit" class="wa-form__submit">
+    <Icon name="lucide:message-circle" aria-hidden="true" />
+    <span>{t('form.openWhatsApp')}</span>
+  </button>
 </form>
 
 <script>
   // @ts-nocheck
-  const forms = /** @type {NodeListOf<HTMLFormElement>} */ (document.querySelectorAll('[data-lead-form]'));
+  const forms = document.querySelectorAll('[data-wa-form]');
+
+  const formatDate = (iso, locale) => {
+    if (!iso) return '';
+    try {
+      const d = new Date(iso + 'T00:00:00');
+      if (Number.isNaN(d.getTime())) return iso;
+      const map = { en: 'en-GB', it: 'it-IT', ua: 'uk-UA' };
+      return d.toLocaleDateString(map[locale] || 'en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+    } catch {
+      return iso;
+    }
+  };
 
   forms.forEach((form) => {
-    const status = /** @type {HTMLElement | null} */ (form.querySelector('[data-lead-status]'));
-    const submitButton = /** @type {HTMLButtonElement | null} */ (form.querySelector('button[type="submit"]'));
-    const originalButtonText = submitButton?.textContent ?? '';
-    const sendingLabel = form.dataset.labelSending ?? 'Sending...';
-    const successLabel = form.dataset.labelSuccess ?? 'Thank you.';
-    const errorLabel = form.dataset.labelError ?? 'Could not send request.';
-
-    form.addEventListener('submit', async (event) => {
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(formData.entries());
 
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = sendingLabel;
-      }
-      if (status) status.textContent = '';
+      const phone = form.dataset.waPhone;
+      const greetingBook = form.dataset.waGreetingBook;
+      const greetingGeneral = form.dataset.waGreetingGeneral;
+      const labelTour = form.dataset.waLabelTour;
+      const labelDate = form.dataset.waLabelDate;
+      const labelNote = form.dataset.waLabelNote;
+      const sentFrom = form.dataset.waSentFrom;
+      const preselected = form.dataset.waPreselected || '';
+      const locale = form.dataset.waLocale || 'en';
 
-      try {
-        const response = await fetch('/api/lead', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
+      const tourField = form.querySelector('[data-wa-tour]');
+      const dateField = form.querySelector('[data-wa-date]');
+      const noteField = form.querySelector('[data-wa-note]');
 
-        const result = await response.json().catch(() => ({}));
+      const rawTour = tourField ? tourField.value : '';
+      const tour = preselected || (rawTour && rawTour !== '__custom__' ? rawTour : '');
+      const date = dateField ? dateField.value : '';
+      const note = noteField ? noteField.value.trim() : '';
 
-        if (!response.ok) {
-          throw new Error(result?.error ?? errorLabel);
-        }
+      const lines = [];
+      lines.push(tour ? greetingBook : greetingGeneral);
+      if (tour) lines.push(`${labelTour}: ${tour}`);
+      if (date) lines.push(`${labelDate}: ${formatDate(date, locale)}`);
+      if (note) lines.push(`${labelNote}: ${note}`);
+      lines.push('');
+      lines.push(`${sentFrom} ${window.location.host}`);
 
-        if (status) status.textContent = successLabel;
-        form.reset();
-      } catch (error) {
-        if (status) status.textContent = error instanceof Error ? error.message : errorLabel;
-      } finally {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = originalButtonText;
-        }
-      }
+      const text = lines.join('\n');
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+
+      window.open(url, '_blank', 'noopener,noreferrer');
     });
   });
 </script>

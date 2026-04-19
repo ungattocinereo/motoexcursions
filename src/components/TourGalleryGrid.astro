@@ -82,7 +82,7 @@ const closeLabel = t('gallery.close');
   )}
 
   <!-- Lightbox -->
-  <div class="gallery-lightbox" data-gallery-lightbox aria-hidden="true" role="dialog" aria-modal="true" aria-label={title}>
+  <dialog class="gallery-lightbox" data-gallery-lightbox aria-label={title}>
     <button type="button" class="gallery-lightbox__close" data-gallery-close aria-label={closeLabel}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M18 6L6 18M6 6l12 12"></path>
@@ -108,7 +108,7 @@ const closeLabel = t('gallery.close');
         <path d="M9 6l6 6-6 6"></path>
       </svg>
     </button>
-  </div>
+  </dialog>
 </section>
 
 <script is:inline define:vars={{ safeId, counterTemplate: t('gallery.counter') }}>
@@ -176,8 +176,7 @@ const closeLabel = t('gallery.close');
     const open = (idx) => {
       if (!lightbox || !img) return;
       isOpen = true;
-      lightbox.classList.add('is-open');
-      lightbox.setAttribute('aria-hidden', 'false');
+      lightbox.showModal();
       document.body.style.overflow = 'hidden';
 
       // Set image instantly (no crossfade on initial open)
@@ -199,11 +198,17 @@ const closeLabel = t('gallery.close');
       lightbox.classList.add('is-closing');
       // Wait for close transition
       setTimeout(() => {
-        lightbox.classList.remove('is-open', 'is-closing');
-        lightbox.setAttribute('aria-hidden', 'true');
+        lightbox.close();
+        lightbox.classList.remove('is-closing');
         document.body.style.overflow = '';
       }, 200);
     };
+
+    // Native ESC close fires 'cancel' — intercept to keep fade animation
+    lightbox?.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close();
+    });
 
     tiles.forEach((tile, idx) => {
       tile.addEventListener('click', () => open(idx));
@@ -223,8 +228,7 @@ const closeLabel = t('gallery.close');
 
     document.addEventListener('keydown', (event) => {
       if (!isOpen) return;
-      if (event.key === 'Escape') close();
-      else if (event.key === 'ArrowRight') show(current + 1, 1);
+      if (event.key === 'ArrowRight') show(current + 1, 1);
       else if (event.key === 'ArrowLeft') show(current - 1, -1);
     });
 

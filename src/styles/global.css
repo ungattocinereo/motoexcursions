@@ -22,6 +22,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -29,6 +33,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 h1,
@@ -626,23 +631,30 @@ img {
 
 .hero-cinematic__card {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 0.85rem;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius);
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 1rem 0.8rem 0.8rem;
   width: fit-content;
+  overflow: visible;
+  position: relative;
 }
 
 .hero-cinematic__card img {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  width: 156px;
+  height: auto;
+  border-radius: 0;
+  object-fit: contain;
+  border: 0;
+  margin-top: -96px;
+  margin-bottom: -0.8rem;
+  align-self: flex-end;
+  filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
 }
 
 .hero-cinematic__card-info {
@@ -1845,6 +1857,32 @@ img {
 .review-card__who strong { font-weight: 700; }
 .review-card__who span { font-size: 0.78rem; color: var(--muted); }
 
+.review-card__meta {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  row-gap: 0.25rem;
+}
+
+.review-card__source {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(24, 119, 242, 0.1);
+  color: #1877f2 !important;
+  font-size: 0.72rem !important;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.review-card__source svg {
+  width: 12px;
+  height: 12px;
+}
+
 .review-card__stars {
   display: inline-flex;
   margin-left: auto;
@@ -2078,24 +2116,32 @@ img {
   transform: rotate(180deg);
 }
 
-/* Lightbox: always perfectly centered, full-dim backdrop */
+/* Lightbox: native <dialog>, top-layer — immune to ancestor transforms */
 .gallery-lightbox {
-  position: fixed;
-  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  border: 0;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.92);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: clamp(1rem, 3vw, 2.5rem);
+  color: inherit;
   opacity: 0;
   transition: opacity 200ms ease;
 }
 
-.gallery-lightbox.is-open {
+.gallery-lightbox[open] {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-lightbox::backdrop {
+  background: transparent;
 }
 
 .gallery-lightbox.is-entered {
@@ -2313,6 +2359,187 @@ img {
 .lead-form button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(52, 82, 255, 0.3);
+}
+
+/* ─── WhatsApp-generator form (replaces old lead form) ─── */
+
+.wa-form select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font: inherit;
+  background: #fff;
+  transition: border-color 200ms;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+
+.wa-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.wa-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: #25d366 !important;
+  color: #fff !important;
+}
+
+.wa-form__submit:hover {
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.38) !important;
+}
+
+.wa-form__submit svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── Contact page ─── */
+
+.contact-hero {
+  margin-top: 1rem;
+  padding: 1.4rem !important;
+}
+
+.contact-hero__title {
+  margin: 0.3rem 0 0.5rem;
+}
+
+.contact-hero__subtitle {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  max-width: 58ch;
+}
+
+.contact-hero__sla {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 1.1rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(37, 211, 102, 0.12);
+  color: #0f7a3a;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.contact-hero__sla svg {
+  width: 15px;
+  height: 15px;
+}
+
+.contact-hero__channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+}
+
+.contact-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.3rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: transform 200ms, box-shadow 200ms, background 200ms;
+  text-decoration: none;
+}
+
+.contact-channel svg {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-channel--wa {
+  background: #25d366;
+  color: #fff;
+}
+
+.contact-channel--wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.38);
+}
+
+.contact-channel--call {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+
+.contact-channel--call:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.contact-hero__languages {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.contact-hero__languages svg {
+  width: 15px;
+  height: 15px;
+}
+
+.contact-section {
+  margin-top: 1.25rem;
+  padding: 1.4rem !important;
+}
+
+.pickup-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.pickup-card__icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pickup-card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pickup-card__body h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+.pickup-card__body p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 60ch;
 }
 
 /* ─── Hero grid (tour detail page) ─── */
