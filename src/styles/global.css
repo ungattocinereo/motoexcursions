@@ -546,7 +546,7 @@ img {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   padding-top: 6rem;
   padding-bottom: 3rem;
@@ -554,6 +554,7 @@ img {
 }
 
 .hero-cinematic__left {
+  min-width: 0;
   opacity: 0;
   transform: translateY(32px);
   animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
@@ -574,12 +575,14 @@ img {
 
 .hero-cinematic__title {
   font-family: 'Roboto Slab', serif;
-  font-size: clamp(2.4rem, 5vw + 1rem, 4.5rem);
-  line-height: 1.05;
+  font-size: clamp(1.9rem, 5vw + 0.9rem, 4.5rem);
+  line-height: 1.08;
   margin: 0 0 1.2rem;
   color: #fff;
   letter-spacing: -0.02em;
   text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
   font-weight: 400;
 }
 
@@ -594,6 +597,8 @@ img {
   line-height: 1.6;
   margin: 0 0 2rem;
   max-width: 48ch;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .hero-cinematic__cta {
@@ -718,6 +723,8 @@ img {
   border-radius: var(--radius);
   padding: 1rem 1.4rem;
   width: fit-content;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .hero-cinematic__stat {
@@ -725,6 +732,9 @@ img {
   flex-direction: column;
   align-items: center;
   gap: 0.15rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  text-align: center;
 }
 
 .hero-cinematic__stat strong {
@@ -740,7 +750,8 @@ img {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  white-space: nowrap;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .hero-cinematic__stat-divider {
@@ -1082,6 +1093,62 @@ img {
   font-weight: 700;
   color: var(--ink);
   font-size: 0.9rem;
+}
+
+/* ─── About Dima ─── */
+
+.about-section {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+  padding: 4rem 0;
+  align-items: center;
+}
+
+.about-section__image {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  box-shadow: var(--shadow-lg);
+}
+
+.about-section__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-section:hover .about-section__image img {
+  transform: scale(1.03);
+}
+
+.about-section__kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9rem;
+  font-weight: 700;
+}
+
+.about-section__text h2 {
+  font-size: clamp(1.6rem, 2.5vw + 0.8rem, 2.6rem);
+  margin: 0 0 1.2rem;
+  line-height: 1.15;
+}
+
+.about-section__text p {
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 1.02rem;
+  margin: 0 0 1.1rem;
+}
+
+.about-section__text p:last-child {
+  margin-bottom: 0;
 }
 
 /* ─── Destination showcase ─── */
@@ -2825,6 +2892,15 @@ img {
   .intro-section {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
+  }
+
+  .about-section {
+    grid-template-columns: 5fr 7fr;
+    gap: 4rem;
+  }
+
+  .about-section__image {
+    aspect-ratio: 3 / 4;
   }
 
   .destination-cards {

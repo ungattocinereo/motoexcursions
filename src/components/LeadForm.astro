@@ -82,7 +82,7 @@ const showDropdown = !preselectedTourTitle && Array.isArray(tours) && tours.leng
     try {
       const d = new Date(iso + 'T00:00:00');
       if (Number.isNaN(d.getTime())) return iso;
-      const map = { en: 'en-GB', it: 'it-IT', ua: 'uk-UA' };
+      const map = { en: 'en-GB', it: 'it-IT', ua: 'uk-UA', ru: 'ru-RU' };
       return d.toLocaleDateString(map[locale] || 'en-GB', {
         day: 'numeric',
         month: 'long',

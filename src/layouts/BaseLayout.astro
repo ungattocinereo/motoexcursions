@@ -51,7 +51,7 @@ const xDefault = new URL(localizedPath(currentPath, 'en'), site).toString();
 
 const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefill'))}`;
 
-const ogLocaleMap: Record<Locale, string> = { en: 'en_US', it: 'it_IT', ua: 'uk_UA' };
+const ogLocaleMap: Record<Locale, string> = { en: 'en_US', it: 'it_IT', ua: 'uk_UA', ru: 'ru_RU' };
 const ogLocaleAlternates = locales.filter((l) => l !== locale).map((l) => ogLocaleMap[l]);
 
 const defaultKeywords = [

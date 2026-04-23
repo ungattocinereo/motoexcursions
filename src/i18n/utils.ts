@@ -23,7 +23,7 @@ export function useTranslations(locale: Locale) {
  * (always with leading slash, preserving trailing slash).
  */
 export function stripLocale(path: string): string {
-  const match = path.match(/^\/(it|ua)(?:\/|$)(.*)$/);
+  const match = path.match(/^\/(it|ua|ru)(?:\/|$)(.*)$/);
   if (!match) return path.startsWith('/') ? path : `/${path}`;
   const rest = match[2] ?? '';
   return `/${rest}`;

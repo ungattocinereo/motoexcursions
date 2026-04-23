@@ -26,3 +26,4 @@ wp-old-uploads/
 
 # raw hero video source — only optimized outputs in public/video/ are shipped
 /video/
+.vercel
