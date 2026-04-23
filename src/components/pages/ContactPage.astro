@@ -26,55 +26,82 @@ const waHref = `https://wa.me/${waPhone}?text=${encodeURIComponent(t('wa.prefill
 ---
 
 <BaseLayout title={t('contact.seoTitle')} description={t('contact.seoDescription')} locale={locale}>
-  <section class="contact-hero surface-card reveal" data-reveal>
-    <p class="kicker">{t('contact.kicker')}</p>
-    <h1 class="contact-hero__title">{t('contact.heading')}</h1>
-    <p class="contact-hero__subtitle">{t('contact.subtitle')}</p>
+  <div class="contact-layout">
+    <!-- ── Left: About the guide ── -->
+    <article class="contact-about reveal" data-reveal>
+      <figure class="contact-about__portrait">
+        <img src="/images/dima-about.webp" alt={t('about.imageAlt')} loading="eager" decoding="async" />
+        <figcaption class="contact-about__caption">
+          <span class="contact-about__caption-name">{t('hero.cardName')}</span>
+          <span class="contact-about__caption-role">{t('hero.cardRole')} · Napoli</span>
+        </figcaption>
+      </figure>
 
-    <p class="contact-hero__sla">
-      <Icon name="lucide:clock" aria-hidden="true" />
-      <span>{t('contact.responseTime')}</span>
-    </p>
+      <div class="contact-about__body">
+        <span class="contact-about__kicker">{t('about.kicker')}</span>
+        <h1 class="contact-about__heading">{t('about.heading')}</h1>
+        <div class="contact-about__rule" aria-hidden="true"></div>
+        <p>{t('about.p1')}</p>
+        <p>{t('about.p2')}</p>
+        <p>{t('about.p3')}</p>
+        <p>{t('about.p4')}</p>
+      </div>
+    </article>
 
-    <div class="contact-hero__channels">
-      <a
-        class="contact-channel contact-channel--wa"
-        href={waHref}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Icon name="lucide:message-circle" aria-hidden="true" />
-        <span>{t('tourDetail.whatsappCta')}</span>
-      </a>
-      <a class="contact-channel contact-channel--call" href={`tel:${telPhone}`}>
-        <Icon name="lucide:phone" aria-hidden="true" />
-        <span>{displayPhone}</span>
-      </a>
-    </div>
+    <!-- ── Right: Actionable contact ── -->
+    <aside class="contact-aside">
+      <section class="contact-card contact-card--channels reveal" data-reveal data-delay="1">
+        <p class="contact-card__kicker">{t('contact.kicker')}</p>
+        <h2 class="contact-card__title">{t('contact.heading')}</h2>
+        <p class="contact-card__lead">{t('contact.subtitle')}</p>
 
-    <p class="contact-hero__languages">
-      <Icon name="lucide:languages" aria-hidden="true" />
-      <span>{t('tourDetail.languageValue')}</span>
-    </p>
-  </section>
+        <p class="contact-sla">
+          <Icon name="lucide:clock" aria-hidden="true" />
+          <span>{t('contact.responseTime')}</span>
+        </p>
 
-  <section class="surface-card reveal contact-section" data-reveal>
-    <div class="section-head" style="margin-bottom: 0.75rem;">
-      <h2 style="margin: 0 0 0.25rem;">{t('contact.formHeading')}</h2>
-      <p style="margin: 0; color: var(--muted);">{t('contact.formSubtitle')}</p>
-    </div>
-    <LeadForm locale={locale} pageUrl={Astro.url.href} tours={tourOptions} />
-  </section>
+        <div class="contact-channels">
+          <a
+            class="contact-channel contact-channel--wa"
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon name="lucide:message-circle" aria-hidden="true" />
+            <span>{t('tourDetail.whatsappCta')}</span>
+          </a>
+          <a class="contact-channel contact-channel--call" href={`tel:${telPhone}`}>
+            <Icon name="lucide:phone" aria-hidden="true" />
+            <span>{displayPhone}</span>
+          </a>
+        </div>
 
-  <section class="surface-card reveal contact-section pickup-card" data-reveal>
-    <span class="pickup-card__icon" aria-hidden="true">
-      <Icon name="lucide:map-pin" />
-    </span>
-    <div class="pickup-card__body">
-      <h2>{t('contact.pickupTitle')}</h2>
-      <p>{t('contact.pickupBody')}</p>
-    </div>
-  </section>
+        <p class="contact-languages">
+          <Icon name="lucide:languages" aria-hidden="true" />
+          <span>{t('tourDetail.languageValue')}</span>
+        </p>
+      </section>
 
+      <section class="contact-card contact-card--form reveal" data-reveal data-delay="2">
+        <div class="contact-card__head">
+          <h3>{t('contact.formHeading')}</h3>
+          <p>{t('contact.formSubtitle')}</p>
+        </div>
+        <LeadForm locale={locale} pageUrl={Astro.url.href} tours={tourOptions} />
+      </section>
+
+      <section class="contact-card contact-card--pickup reveal" data-reveal data-delay="3">
+        <span class="contact-pickup-icon" aria-hidden="true">
+          <Icon name="lucide:map-pin" />
+        </span>
+        <div class="contact-pickup-body">
+          <h3>{t('contact.pickupTitle')}</h3>
+          <p>{t('contact.pickupBody')}</p>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <!-- ── Bottom: Follow along ── -->
   <SocialLinks locale={locale} />
 </BaseLayout>
