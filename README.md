@@ -6,7 +6,7 @@ Astro-based migration of motoexcursions.it from WordPress to a fast, mostly-stat
 
 - Astro + TypeScript
 - Tailwind CSS (via `@tailwindcss/vite`)
-- Vercel adapter (`@astrojs/vercel`) in `hybrid` mode
+- Node standalone adapter (`@astrojs/node`) — runs under PM2 on the Sweden VPS
 - Astro Content Collections for tour content
 
 ## Routes
@@ -17,13 +17,11 @@ Astro-based migration of motoexcursions.it from WordPress to a fast, mostly-stat
 - `/contact`
 - `/privacy`
 - `/terms`
-- `/api/lead` POST lead submission to Telegram
-- `/api/social-feed` GET normalized social feed
+- `/api/social-feed` GET normalized social feed (Instagram/Facebook/YouTube, in-memory cache)
 
 ## Redirects
 
-- `301 /excursions/{slug}/ -> /tours/{slug}/`
-- Configured in `astro.config.mjs` and `vercel.json`.
+- `301 /excursions/{slug}/ -> /tours/{slug}/` — configured in `astro.config.mjs`.
 
 ## Tours and content
 
@@ -83,3 +81,42 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Deploy to Sweden VPS
+
+The site runs at `/home/greg/motoexcursions/` on the `sweden` host (`64.112.127.163`), behind Caddy on port `127.0.0.1:30015`, supervised by PM2 (`pm2 list` → `motoexcursions`). Site config is in `/etc/caddy/Caddyfile`; SNI ACL in `/etc/haproxy/haproxy.cfg`. Read `/home/greg/runbook/INDEX.md` before any server-side change.
+
+### Auto deploy (default)
+
+Push to `main` triggers a GitHub webhook → `https://motoexcursions.it/hooks/redeploy-motoexcursions` → server runs `scripts/deploy.sh`:
+
+```bash
+git pull --ff-only origin main
+npm ci
+npm run build
+pm2 restart motoexcursions
+```
+
+Tail the deploy log:
+
+```bash
+ssh sweden 'tail -f /tmp/deploy-motoexcursions.log'
+```
+
+### Manual deploy (escape hatch)
+
+When the webhook is disabled or you want to ship without a commit:
+
+```bash
+npm run build
+rsync -az --delete \
+  --exclude='.git' --exclude='node_modules' --exclude='.env*' \
+  ./dist ./package.json ./package-lock.json ./ecosystem.config.cjs \
+  sweden:/home/greg/motoexcursions/
+
+ssh sweden 'cd /home/greg/motoexcursions && npm ci --omit=dev && pm2 restart motoexcursions'
+```
+
+### Server-side env
+
+Secrets live in `/home/greg/motoexcursions/.env` (chmod 600, never committed). PM2 loads them via `--env-file` (see `ecosystem.config.cjs`). To rotate a key, edit the `.env` and `pm2 restart motoexcursions`.

@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import { Icon } from 'astro-icon/components';
-import Analytics from '@vercel/analytics/astro';
 import LangSwitch from '@/components/LangSwitch.astro';
 import { htmlLang, localizedPath, useTranslations, type Locale, locales } from '@/i18n/utils';
 
@@ -319,8 +318,6 @@ const navItems = [
         </div>
       </div>
     </footer>
-
-    <Analytics />
 
     <a class="wa-cta" href={waHref} aria-label={t('wa.label')} target="_blank" rel="noopener noreferrer" data-wa-cta>
       <Icon name="lucide:message-circle" aria-hidden="true" />

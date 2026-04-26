@@ -5,7 +5,6 @@ node_modules/
 .dist/
 dist/
 .astro/
-.vercel/
 
 # local env
 .env
@@ -26,4 +25,7 @@ wp-old-uploads/
 
 # raw hero video source — only optimized outputs in public/video/ are shipped
 /video/
+
+# PM2 / deploy logs
+.pm2/
 .vercel
