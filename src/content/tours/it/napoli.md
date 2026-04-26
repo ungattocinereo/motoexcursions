@@ -16,26 +16,30 @@ ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.web
 order: 2
 ---
 
-> Bozza: sostituire con la copia finale.
-
 ## Panoramica del tour
 
-Un itinerario compatto di Napoli pensato per chi vuole vivere l'energia della città, le sue mete principali e gli angoli locali più nascosti in un unico giro.
+Un giro per Napoli e i suoi punti più panoramici — un viaggio personale lungo strade e luoghi che ai turisti non vengono mostrati, ma che custodiscono tutta la vera bellezza e il carattere della città. Tanti punti di osservazione con i migliori scorci sulla città e sui paesaggi intorno, un aperitivo in terrazza con vista pazzesca, vicoli stretti e colorati con i panni stesi sopra la testa. Pranzo o caffè con la gente del posto.
+
+In questo itinerario non entriamo nei musei e non recitiamo i 2.500 anni di storia di Napoli. In compenso vediamo tantissima bellezza, viviamo il giro in modo non convenzionale e davvero intenso. Napoli merita di essere vista così.
 
 ## Cosa è incluso
 
-- Tour cittadino guidato in moto
-- Soste fotografiche e panoramiche
-- Briefing sul percorso
+- Tour in moto personale con un pilota esperto
+- Strade panoramiche e punti di osservazione irraggiungibili in auto
+- Vicoli storici col carattere napoletano più autentico
+- Aperitivo in terrazza con vista sulla città
+- Soste fotografiche nei punti più belli
 
 ## Cosa non è incluso
 
-- Biglietti per musei
 - Cibo e bevande
 - Assicurazione personale
+- Biglietti di musei e gallerie
 
 ## Condizioni importanti
 
-- L'itinerario può cambiare per restrizioni al traffico o eventi cittadini.
-- Indossa abiti comodi e scarpe chiuse.
-- La politica di cancellazione sarà aggiunta nella copia definitiva.
+- L'itinerario può essere abbinato alla salita al Vesuvio nello stesso giorno.
+- D'estate è possibile fare un bagno in un bel punto sulle rocce vulcaniche — porta il costume.
+- Scarpe chiuse e comode per le soste.
+
+**Su richiesta:** possibile prenotare uno shooting con macchina fotografica professionale, drone e action cam Insta360 — sarai inquadrato dall'esterno, effetto wow garantito.

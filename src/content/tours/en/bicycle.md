@@ -6,6 +6,7 @@ highlights:
   - "Viewpoints too far to reach on foot"
   - "Real Naples flavor away from the tourist paths"
   - "Lunch with local families"
+  - "Duration: from a few hours to a full day"
 duration: "4 hours"
 priceFrom: 100
 meetingPoint: "Naples city center"

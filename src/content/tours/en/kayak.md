@@ -34,7 +34,6 @@ The day is easy and relaxed. You'll see a Naples that will genuinely surprise yo
 
 - Personal insurance
 - Food and drinks
-- Sunscreen and water shoes
 
 ## Important conditions
 

@@ -6,6 +6,7 @@ highlights:
   - "Panorami irraggiungibili a piedi"
   - "Vera Napoli lontano dai sentieri turistici"
   - "Pranzo a casa dei locali"
+  - "Durata: da poche ore a una giornata intera"
 duration: "4 ore"
 priceFrom: 100
 meetingPoint: "Centro di Napoli"

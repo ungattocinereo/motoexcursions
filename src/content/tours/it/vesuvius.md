@@ -6,7 +6,7 @@ highlights:
   - "Punto panoramico al tramonto sul Vesuvio"
   - "Esperienza con moto d'epoca"
   - "Soste foto sul percorso più scenico"
-duration: "4 ore"
+duration: "4–5 ore"
 priceFrom: 180
 meetingPoint: "Centro di Napoli"
 route: "Centro di Napoli → strada panoramica del Vesuvio → punto di osservazione del cratere"
@@ -16,26 +16,32 @@ ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 order: 1
 ---
 
-> Bozza: sostituire con la copia finale.
-
 ## Panoramica del tour
 
-Un percorso panoramico da Napoli al Vesuvio studiato per catturare la luce migliore e i punti panoramici più limpidi.
+🌋 Salita al Vesuvio — fino al punto più bello del cratere con vista a 360°, nell'ora perfetta, al tramonto. Lì e a quell'ora i turisti non vengono mai portati.
+
+Ci scaldiamo sulla terra calda e beviamo un tè preparato con il vapore vulcanico. Solo noi. La parte selvaggia del cratere, inaccessibile ai turisti normali — è qui che si rivela la vera bellezza del vulcano.
 
 ## Cosa è incluso
 
-- Giro in moto con guida
-- Soste fotografiche base
-- Briefing sul percorso e note di sicurezza
+- Trasferimento in moto da Napoli al Vesuvio con pilota esperto
+- Salita nella zona del cratere chiusa al pubblico
+- Tè preparato con il vapore vulcanico
+- Tramonto in cima
+- Soste fotografiche lungo il percorso
 
 ## Cosa non è incluso
 
+- Cibo e bevande (oltre al tè in cima)
 - Assicurazione personale
-- Cibo e bevande
-- Biglietti d'ingresso (se richiesti)
+- Abbigliamento caldo e scarpe da trekking (porta i tuoi)
 
 ## Condizioni importanti
 
-- Il tour può essere riprogrammato per maltempo.
-- Porta un documento valido e abbigliamento adatto.
-- La politica di cancellazione sarà aggiunta nella copia definitiva.
+- Durata 4–5 ore, partenza e arrivo a Napoli.
+- La parte principale è un'escursione a piedi: ~1.5 ore in salita e 0.5 ore in discesa. Difficoltà bassa — adatta anche a persone non allenate, basta più tempo.
+- Partenza nel pomeriggio, l'orario esatto cambia ogni mese — circa 3 ore prima del tramonto.
+- La sera può fare fresco. Porta qualcosa di caldo — consigliata biancheria termica (estiva o invernale) e scarpe da trekking antiscivolo.
+- Disponibile tutto l'anno su prenotazione individuale.
+
+**Su richiesta:** possibile prenotare uno shooting con macchina fotografica professionale e drone.

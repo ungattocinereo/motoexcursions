@@ -16,26 +16,30 @@ ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.web
 order: 2
 ---
 
-> Draft text: replace with your final copy.
-
 ## Tour overview
 
-A compact Naples route designed for guests who want city energy, key landmarks, and hidden local points in one ride.
+A ride through Naples and its most panoramic places — a personal journey along roads and locations tourists never see, the ones that hold the real beauty and character of the city. Plenty of viewpoints with the best angles over the city and the landscapes around it, an aperitivo on a terrace with a stunning view, old quarters with narrow colorful alleys and laundry hanging right above your head. Lunch or coffee with locals.
+
+On this route we don't visit museums and we don't recite 2,500 years of Naples history. Instead — pure beauty, real feeling, and an unconventional, intense experience. This is how Naples deserves to be seen.
 
 ## What is included
 
-- Guided motorcycle city tour
-- Photo and viewpoint stops
-- Route briefing
+- Personal moto tour with an experienced rider
+- Panoramic roads and viewpoints you can't reach by car
+- Old quarters with the strongest local character
+- Aperitivo on a terrace overlooking the city
+- Photo stops at the most beautiful angles
 
 ## What is not included
 
-- Museum tickets
 - Food and drinks
 - Personal insurance
+- Paid museum and gallery tickets
 
 ## Important conditions
 
-- Route can change because of traffic restrictions or city events.
-- Wear comfortable clothes and closed shoes.
-- Cancellation policy will be added in final copy.
+- This route can be combined with the Vesuvius climb on the same day.
+- In summer there's a chance to swim at a great spot on volcanic rocks — bring swimwear.
+- Closed comfortable shoes for the stops.
+
+**Add-ons:** you can book a photo shoot with a professional camera, drone, and Insta360 action camera — you'll be visible from outside, real wow effect.

@@ -34,7 +34,6 @@ La giornata scorre leggera e rilassata. Vedrai una Napoli che ti sorprenderà da
 
 - Assicurazione personale
 - Cibo e bevande
-- Crema solare e scarpe da scoglio
 
 ## Condizioni importanti
 
