@@ -1,5 +1,5 @@
-export const defaultLocale = 'en' as const;
-export const locales = ['en', 'it', 'ua', 'ru'] as const;
+export const defaultLocale = 'ua' as const;
+export const locales = ['ua', 'en', 'it', 'ru'] as const;
 export type Locale = (typeof locales)[number];
 
 export const htmlLang: Record<Locale, string> = {
@@ -105,8 +105,8 @@ export const ui = {
 
     'tours.kicker': 'Private motorcycle excursions',
     'tours.heading': 'Choose your ride along the Bay of Naples',
-    'tours.seoTitle': 'Motorcycle Excursions in Naples, Vesuvius & Amalfi | Italia Moto Excursions',
-    'tours.seoDescription': 'Private motorcycle excursions in Naples, Vesuvius and the Amalfi Coast. Handpicked routes, local guide, photo stops — you ride as passenger, Dima drives.',
+    'tours.seoTitle': 'Motorcycle Excursions in Italy with Dima Brenych — Naples, Vesuvius & Amalfi',
+    'tours.seoDescription': 'Private motorcycle excursions in Italy with Dima Brenych — Naples, Vesuvius and the Amalfi Coast. Handpicked routes, photo stops, you ride as passenger, Dima drives.',
     'tours.chipPrivate': 'Private 1-on-1 ride',
     'tours.chipPhoto': 'Photo-focused stops',
     'tours.chipFlex': 'Flexible schedule',
@@ -146,8 +146,8 @@ export const ui = {
     'contact.kicker': 'Contact',
     'contact.heading': 'Talk to us about your ride',
     'contact.subtitle': 'Pick a tour, send a quick message — we continue on WhatsApp.',
-    'contact.seoTitle': 'Contact | Italia Moto Excursions',
-    'contact.seoDescription': 'Contact Italia Moto Excursions on WhatsApp. Pickup from your hotel, reply within 1 hour.',
+    'contact.seoTitle': 'Contact Dima Brenych — Motorcycle Excursions in Italy',
+    'contact.seoDescription': 'Contact Dima Brenych on WhatsApp about motorcycle excursions in Italy. Pickup from your hotel in Naples, Sorrento or Amalfi. Reply within 1 hour.',
     'contact.generalTitle': 'General contact request',
     'contact.responseTime': 'Reply within ~1 hour · daily 8:00–22:00 CET',
     'contact.callLabel': 'Call',
@@ -171,9 +171,9 @@ export const ui = {
     'terms.seoTitle': 'Terms | Italia Moto Excursions',
     'terms.seoDescription': 'Basic booking and participation terms.',
 
-    'site.title': 'Moto excursions in Naples and Vesuvius with Dima and friends',
-    'site.description': 'Join Dima and friends on an adrenaline-fueled adventure through the streets of Naples, Sorrento, Amalfi and mount Vesuvius.',
-    'site.defaultDescription': 'Private-style motorcycle excursions in Naples, Vesuvius and Amalfi Coast.',
+    'site.title': 'Motorcycle Excursions in Italy with Dima Brenych — Naples, Vesuvius, Amalfi',
+    'site.description': 'Private motorcycle excursions in Italy with Dima Brenych: Naples, Vesuvius, Sorrento and the Amalfi Coast. You ride as passenger, Dima drives. Photo-focused stops, hotel pickup.',
+    'site.defaultDescription': 'Motorcycle excursions in Italy with Dima Brenych — private moto tours in Naples, Vesuvius and the Amalfi Coast.',
 
     'footer.copy': 'All rights reserved.',
     'footer.designBy': 'Design and coding',
@@ -270,8 +270,8 @@ export const ui = {
 
     'tours.kicker': 'Escursioni private in moto',
     'tours.heading': 'Scegli il tuo giro nel Golfo di Napoli',
-    'tours.seoTitle': 'Escursioni in moto a Napoli, Vesuvio e Costiera Amalfitana | Italia Moto Excursions',
-    'tours.seoDescription': 'Escursioni private in moto a Napoli, sul Vesuvio e sulla Costiera Amalfitana. Itinerari selezionati, guida locale, soste fotografiche — tu sei passeggero, Dima guida.',
+    'tours.seoTitle': 'Escursioni in moto in Italia con Dima Brenych — Napoli, Vesuvio & Amalfi',
+    'tours.seoDescription': 'Escursioni private in moto in Italia con Dima Brenych: Napoli, Vesuvio e Costiera Amalfitana. Itinerari selezionati, soste fotografiche — tu sei passeggero, Dima guida.',
     'tours.chipPrivate': 'Tour privato 1 a 1',
     'tours.chipPhoto': 'Soste fotografiche',
     'tours.chipFlex': 'Orari flessibili',
@@ -311,8 +311,8 @@ export const ui = {
     'contact.kicker': 'Contatti',
     'contact.heading': 'Parlaci della tua escursione',
     'contact.subtitle': 'Scegli un tour, scrivi un messaggio breve — continuiamo su WhatsApp.',
-    'contact.seoTitle': 'Contatti | Italia Moto Excursions',
-    'contact.seoDescription': 'Contatta Italia Moto Excursions su WhatsApp. Ritiro in hotel, risposta entro 1 ora.',
+    'contact.seoTitle': 'Contatti Dima Brenych — Escursioni in moto in Italia',
+    'contact.seoDescription': 'Contatta Dima Brenych su WhatsApp per le escursioni in moto in Italia. Ritiro in hotel a Napoli, Sorrento o Costiera Amalfitana. Risposta entro 1 ora.',
     'contact.generalTitle': 'Richiesta contatto generale',
     'contact.responseTime': 'Risposta in ~1 ora · ogni giorno 8:00–22:00 CET',
     'contact.callLabel': 'Chiama',
@@ -336,9 +336,9 @@ export const ui = {
     'terms.seoTitle': 'Termini | Italia Moto Excursions',
     'terms.seoDescription': 'Termini di prenotazione e partecipazione.',
 
-    'site.title': 'Escursioni in moto a Napoli e Vesuvio con Dima e amici',
-    'site.description': 'Unisciti a Dima e ai suoi amici per un\'avventura adrenalinica tra le strade di Napoli, Sorrento, Amalfi e il Vesuvio.',
-    'site.defaultDescription': 'Escursioni in moto in stile privato a Napoli, Vesuvio e Costiera Amalfitana.',
+    'site.title': 'Escursioni in moto in Italia con Dima Brenych — Napoli, Vesuvio, Amalfi',
+    'site.description': 'Escursioni in moto private in Italia con Dima Brenych: Napoli, Vesuvio, Sorrento e Costiera Amalfitana. Tu sei passeggero, Dima guida. Soste fotografiche, ritiro in hotel.',
+    'site.defaultDescription': 'Escursioni in moto in Italia con Dima Brenych — tour privati a Napoli, Vesuvio e Costiera Amalfitana.',
 
     'footer.copy': 'Tutti i diritti riservati.',
     'footer.designBy': 'Design e sviluppo',
@@ -435,8 +435,8 @@ export const ui = {
 
     'tours.kicker': 'Приватні мотоекскурсії',
     'tours.heading': 'Обери свій маршрут у Неаполітанській затоці',
-    'tours.seoTitle': 'Мотоекскурсії Неаполем, Везувієм і Амальфі | Italia Moto Excursions',
-    'tours.seoDescription': 'Приватні мотоекскурсії Неаполем, Везувієм та узбережжям Амальфі. Відібрані маршрути, місцевий гід, фото-зупинки — ти пасажир, Діма за кермом.',
+    'tours.seoTitle': 'Мотоекскурсії в Італії з Дімою Бреничем — Неаполь, Везувій, Амальфі',
+    'tours.seoDescription': 'Приватні мотоекскурсії в Італії з Дімою Бреничем: Неаполь, Везувій і узбережжя Амальфі. Відібрані маршрути, фото-зупинки — ти пасажир, Діма за кермом.',
     'tours.chipPrivate': 'Приватний тур 1 на 1',
     'tours.chipPhoto': 'Зупинки для фото',
     'tours.chipFlex': 'Гнучкий графік',
@@ -476,8 +476,8 @@ export const ui = {
     'contact.kicker': 'Контакти',
     'contact.heading': 'Напиши про свою поїздку',
     'contact.subtitle': 'Обери тур, надішли коротке повідомлення — далі спілкуємось у WhatsApp.',
-    'contact.seoTitle': 'Контакти | Italia Moto Excursions',
-    'contact.seoDescription': 'Зв\'язатися з Italia Moto Excursions через WhatsApp. Забираємо з готелю, відповідь за 1 годину.',
+    'contact.seoTitle': 'Контакти Діма Бренич — Мотоекскурсії в Італії',
+    'contact.seoDescription': 'Зв\'язатися з Дімою Бреничем у WhatsApp щодо мотоекскурсій в Італії. Забираємо з готелю в Неаполі, Сорренто чи на Амальфі. Відповідь за 1 годину.',
     'contact.generalTitle': 'Загальний запит',
     'contact.responseTime': 'Відповідь протягом ~1 години · щодня 8:00–22:00 CET',
     'contact.callLabel': 'Зателефонувати',
@@ -501,9 +501,9 @@ export const ui = {
     'terms.seoTitle': 'Умови | Italia Moto Excursions',
     'terms.seoDescription': 'Базові умови бронювання та участі.',
 
-    'site.title': 'Мотоекскурсії Неаполем і Везувієм з Дімою та друзями',
-    'site.description': 'Приєднуйся до Діми і друзів у захоплюючій подорожі вулицями Неаполя, Сорренто, Амальфі та Везувієм.',
-    'site.defaultDescription': 'Приватні мотоекскурсії Неаполем, Везувієм і узбережжям Амальфі.',
+    'site.title': 'Мотоекскурсії в Італії з Дімою Бреничем — Неаполь, Везувій, Амальфі',
+    'site.description': 'Приватні мотоекскурсії в Італії з Дімою Бреничем: Неаполь, Везувій, Сорренто й узбережжя Амальфі. Ти пасажир — Діма за кермом. Зупинки для фото, забір з готелю.',
+    'site.defaultDescription': 'Мотоекскурсії в Італії з Дімою Бреничем — приватні мототури Неаполем, Везувієм та узбережжям Амальфі.',
 
     'footer.copy': 'Усі права захищені.',
     'footer.designBy': 'Дизайн і розробка',
@@ -600,8 +600,8 @@ export const ui = {
 
     'tours.kicker': 'Частные мотоэкскурсии',
     'tours.heading': 'Выбери свой маршрут в Неаполитанском заливе',
-    'tours.seoTitle': 'Мотоэкскурсии по Неаполю, Везувию и Амальфи | Italia Moto Excursions',
-    'tours.seoDescription': 'Частные мотоэкскурсии по Неаполю, Везувию и побережью Амальфи. Отобранные маршруты, местный гид, фото-остановки — ты пассажир, Дима за рулём.',
+    'tours.seoTitle': 'Мотоэкскурсии в Италии с Димой Бреничем — Неаполь, Везувий, Амальфи',
+    'tours.seoDescription': 'Частные мотоэкскурсии в Италии с Димой Бреничем: Неаполь, Везувий и побережье Амальфи. Отобранные маршруты, фото-остановки — ты пассажир, Дима за рулём.',
     'tours.chipPrivate': 'Частный тур 1 на 1',
     'tours.chipPhoto': 'Остановки для фото',
     'tours.chipFlex': 'Гибкий график',
@@ -641,8 +641,8 @@ export const ui = {
     'contact.kicker': 'Контакты',
     'contact.heading': 'Напиши о своей поездке',
     'contact.subtitle': 'Выбери тур, отправь короткое сообщение — продолжим в WhatsApp.',
-    'contact.seoTitle': 'Контакты | Italia Moto Excursions',
-    'contact.seoDescription': 'Связаться с Italia Moto Excursions в WhatsApp. Забираем из отеля, ответ в течение 1 часа.',
+    'contact.seoTitle': 'Контакты Дима Бренич — Мотоэкскурсии в Италии',
+    'contact.seoDescription': 'Связаться с Димой Бреничем в WhatsApp по мотоэкскурсиям в Италии. Забираем из отеля в Неаполе, Сорренто или на Амальфи. Ответ в течение 1 часа.',
     'contact.generalTitle': 'Общий запрос',
     'contact.responseTime': 'Ответ в течение ~1 часа · ежедневно 8:00–22:00 CET',
     'contact.callLabel': 'Позвонить',
@@ -666,9 +666,9 @@ export const ui = {
     'terms.seoTitle': 'Условия | Italia Moto Excursions',
     'terms.seoDescription': 'Базовые условия бронирования и участия.',
 
-    'site.title': 'Мотоэкскурсии по Неаполю и Везувию с Димой и друзьями',
-    'site.description': 'Присоединяйся к Диме и его друзьям в захватывающем путешествии по улицам Неаполя, Сорренто, Амальфи и Везувию.',
-    'site.defaultDescription': 'Частные мотоэкскурсии по Неаполю, Везувию и побережью Амальфи.',
+    'site.title': 'Мотоэкскурсии в Италии с Димой Бреничем — Неаполь, Везувий, Амальфи',
+    'site.description': 'Частные мотоэкскурсии в Италии с Димой Бреничем: Неаполь, Везувий, Сорренто и побережье Амальфи. Ты пассажир — Дима за рулём. Остановки для фото, забор из отеля.',
+    'site.defaultDescription': 'Мотоэкскурсии в Италии с Димой Бреничем — частные мототуры по Неаполю, Везувию и побережью Амальфи.',
 
     'footer.copy': 'Все права защищены.',
     'footer.designBy': 'Дизайн и разработка',

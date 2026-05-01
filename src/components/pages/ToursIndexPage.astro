@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import TourCard from '@/components/TourCard.astro';
 import { getTours, tourSlug } from '@/lib/tours';
-import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
+import { htmlLang, localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -15,17 +15,32 @@ const tours = await getTours(locale);
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
 const toursPageUrl = new URL(localizedPath('/tours/', locale), site).toString();
+const orgId = `${site.toString()}#organization`;
 
 const breadcrumbs = [
   { name: t('nav.home'), url: localizedPath('/', locale) },
   { name: t('nav.tours'), url: localizedPath('/tours/', locale) },
 ];
 
+const collectionPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${toursPageUrl}#webpage`,
+  url: toursPageUrl,
+  name: t('tours.seoTitle'),
+  description: t('tours.seoDescription'),
+  inLanguage: htmlLang[locale],
+  isPartOf: { '@id': `${site.toString()}#website` },
+  about: { '@id': orgId },
+};
+
 const itemListLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: t('tours.heading'),
+  description: t('tours.seoDescription'),
   url: toursPageUrl,
+  inLanguage: htmlLang[locale],
   numberOfItems: tours.length,
   itemListElement: tours.map((tour, i) => ({
     '@type': 'ListItem',
@@ -42,7 +57,7 @@ const itemListLd = {
   description={t('tours.seoDescription')}
   locale={locale}
   breadcrumbs={breadcrumbs}
-  jsonLd={itemListLd}
+  jsonLd={[collectionPageLd, itemListLd]}
 >
   <section class="tours-hero">
     <nav class="breadcrumb" aria-label="Breadcrumb">

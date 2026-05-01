@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { Icon } from 'astro-icon/components';
 import LangSwitch from '@/components/LangSwitch.astro';
-import { htmlLang, localizedPath, useTranslations, type Locale, locales } from '@/i18n/utils';
+import { htmlLang, localizedPath, useTranslations, type Locale, locales, defaultLocale } from '@/i18n/utils';
 
 interface Props {
   title: string;
@@ -46,7 +46,7 @@ const alternates = locales.map((code) => {
     code,
   };
 });
-const xDefault = new URL(localizedPath(currentPath, 'en'), site).toString();
+const xDefault = new URL(localizedPath(currentPath, defaultLocale), site).toString();
 
 const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefill'))}`;
 
@@ -54,7 +54,14 @@ const ogLocaleMap: Record<Locale, string> = { en: 'en_US', it: 'it_IT', ua: 'uk_
 const ogLocaleAlternates = locales.filter((l) => l !== locale).map((l) => ogLocaleMap[l]);
 
 const defaultKeywords = [
-  'moto excursions',
+  'Dima Brenych',
+  'Діма Бренич',
+  'Дима Бренич',
+  'moto excursions Italy',
+  'motorcycle excursions Italy',
+  'мотоекскурсії в Італії',
+  'мотоэкскурсии в Италии',
+  'escursioni in moto in Italia',
   'motorcycle tours Naples',
   'Vesuvius motorcycle tour',
   'Amalfi coast motorcycle',
@@ -63,23 +70,83 @@ const defaultKeywords = [
 ];
 const metaKeywords = (keywords?.length ? keywords : defaultKeywords).join(', ');
 
-// Organization JSON-LD (emitted on every page)
+// Stable @id values so other entities can reference them across pages
+const orgId = `${site.toString()}#organization`;
+const websiteId = `${site.toString()}#website`;
+const founderId = `${site.toString()}#dima`;
+
+// Founder / guide — Person entity (referenced by Organization)
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': founderId,
+  name: 'Dima Brenych',
+  alternateName: ['Діма Бренич', 'Дима Бренич', 'Dima Brenich', 'Дима Бреныч'],
+  jobTitle: t('hero.cardRole'),
+  image: new URL('/images/dima-about.webp', site).toString(),
+  url: new URL(localizedPath('/contact/', locale), site).toString(),
+  worksFor: { '@id': orgId },
+  knowsLanguage: ['uk', 'en', 'it', 'ru'],
+  sameAs: [
+    'https://www.instagram.com/italia_moto_excursions/',
+    'https://facebook.com/motodetki',
+    'https://youtube.com/@Italia_moto_excursions',
+  ],
+};
+
+// Organization (TravelAgency is the closest schema.org type for moto-tour operator)
 const orgLd = {
   '@context': 'https://schema.org',
-  '@type': 'TouristInformationCenter',
+  '@type': ['TravelAgency', 'LocalBusiness', 'TouristInformationCenter'],
+  '@id': orgId,
   name: 'Italia Moto Excursions',
+  alternateName: ['Moto Excursions', 'Italia Moto Excursions Naples'],
   url: site.toString(),
   logo: new URL('/images/2-logo-horisontal-transparency.png', site).toString(),
   image: ogImage,
   description: t('site.defaultDescription'),
+  inLanguage: ['uk', 'en', 'it', 'ru'],
   telephone: '+39 334 720 0808',
+  email: 'info@motoexcursions.it',
+  priceRange: '€€',
+  currenciesAccepted: 'EUR',
+  paymentAccepted: ['Cash', 'Bank Transfer', 'PayPal'],
+  founder: { '@id': founderId },
+  founders: [{ '@id': founderId }],
+  employee: [{ '@id': founderId }],
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Naples',
     addressRegion: 'Campania',
     addressCountry: 'IT',
   },
-  areaServed: ['Naples', 'Vesuvius', 'Amalfi Coast', 'Sorrento', 'Pompeii'],
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 40.8518,
+    longitude: 14.2681,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Naples' },
+    { '@type': 'City', name: 'Sorrento' },
+    { '@type': 'City', name: 'Pompeii' },
+    { '@type': 'TouristAttraction', name: 'Mount Vesuvius' },
+    { '@type': 'TouristAttraction', name: 'Amalfi Coast' },
+  ],
+  knowsLanguage: ['uk', 'en', 'it', 'ru'],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '08:00',
+    closes: '22:00',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    telephone: '+39 334 720 0808',
+    email: 'info@motoexcursions.it',
+    areaServed: 'IT',
+    availableLanguage: ['English', 'Italian', 'Ukrainian', 'Russian'],
+  },
   sameAs: [
     'https://facebook.com/motodetki',
     'https://www.instagram.com/italia_moto_excursions/',
@@ -90,15 +157,18 @@ const orgLd = {
 const websiteLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': websiteId,
   name: 'Italia Moto Excursions',
   url: site.toString(),
   inLanguage: htmlLang[locale],
+  publisher: { '@id': orgId },
 };
 
 const breadcrumbsLd = breadcrumbs && breadcrumbs.length > 0
   ? {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
+      inLanguage: htmlLang[locale],
       itemListElement: breadcrumbs.map((b, i) => ({
         '@type': 'ListItem',
         position: i + 1,
@@ -112,7 +182,7 @@ const extraLd: Array<Record<string, unknown>> = [];
 if (Array.isArray(jsonLd)) extraLd.push(...jsonLd);
 else if (jsonLd) extraLd.push(jsonLd);
 
-const allLd = [orgLd, websiteLd, ...(breadcrumbsLd ? [breadcrumbsLd] : []), ...extraLd];
+const allLd = [orgLd, personLd, websiteLd, ...(breadcrumbsLd ? [breadcrumbsLd] : []), ...extraLd];
 
 const navItems = [
   { href: localizedPath('/', locale), label: t('nav.home'), icon: 'lucide:home', match: (p: string) => p === localizedPath('/', locale) },
@@ -177,9 +247,12 @@ const navItems = [
     <meta name="geo.position" content="40.8518;14.2681" />
     <meta name="ICBM" content="40.8518, 14.2681" />
 
-    <link rel="icon" type="image/png" href="/images/2-logo-horisontal-transparency.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="any" href="/images/2-logo-horisontal-transparency.png" />
     <link rel="apple-touch-icon" href="/images/2-logo-horisontal-transparency.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="Moto Excursions" />
+    <meta name="application-name" content="Italia Moto Excursions" />
 
     {allLd.map((entry) => (
       <script type="application/ld+json" is:inline set:html={JSON.stringify(entry)} />

@@ -6,7 +6,7 @@ import ReviewList from '@/components/ReviewList.astro';
 import TourCard from '@/components/TourCard.astro';
 import TourGalleryGrid from '@/components/TourGalleryGrid.astro';
 import { getTours, getTourGallery, tourSlug, type Tour } from '@/lib/tours';
-import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
+import { htmlLang, localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Review {
   author: string;
@@ -45,6 +45,9 @@ const waText = `${t('wa.prefillTour')} ${tour.data.title}`;
 const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(waText)}`;
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
+const orgId = `${site.toString()}#organization`;
+const tourUrl = new URL(tourPath(slug, locale), site).toString();
+const tourId = `${tourUrl}#trip`;
 
 const breadcrumbs = [
   { name: t('nav.home'), url: localizedPath('/', locale) },
@@ -54,21 +57,43 @@ const breadcrumbs = [
 
 const highlightIcons = ['lucide:mountain', 'lucide:camera', 'lucide:leaf', 'lucide:map', 'lucide:star', 'lucide:compass'];
 
-// Structured data: TouristTrip + Product (with Offer) + AggregateRating + Review
+// Offer "valid through" — keep prices fresh for ~1 year from build
+const priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000)
+  .toISOString()
+  .slice(0, 10);
+
+// WebPage wrapper — links the URL/locale to the trip entity
+const webPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${tourUrl}#webpage`,
+  url: tourUrl,
+  name: tour.data.seoTitle,
+  description: tour.data.seoDescription,
+  inLanguage: htmlLang[locale],
+  isPartOf: { '@id': `${site.toString()}#website` },
+  primaryImageOfPage: new URL(tour.data.coverImage, site).toString(),
+  about: { '@id': tourId },
+};
+
+// Structured data: TouristTrip + Offer + AggregateRating + Review
 const trip: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'TouristTrip',
-  '@id': new URL(tourPath(slug, locale), site).toString() + '#trip',
+  '@id': tourId,
   name: tour.data.title,
   description: tour.data.seoDescription,
-  image: new URL(tour.data.coverImage, site).toString(),
-  touristType: 'Motorcycle passenger, couples, solo travellers',
-  url: new URL(tourPath(slug, locale), site).toString(),
-  provider: {
-    '@type': 'Organization',
-    name: 'Italia Moto Excursions',
-    url: site.toString(),
+  inLanguage: htmlLang[locale],
+  image: {
+    '@type': 'ImageObject',
+    url: new URL(tour.data.coverImage, site).toString(),
+    width: 1600,
+    height: 1067,
   },
+  touristType: ['Motorcycle passenger', 'Couples', 'Solo travellers', 'Photography enthusiasts'],
+  url: tourUrl,
+  provider: { '@id': orgId },
+  subjectOf: { '@id': `${tourUrl}#webpage` },
   itinerary: {
     '@type': 'ItemList',
     itemListElement: tour.data.highlights.map((h, i) => ({
@@ -82,7 +107,10 @@ const trip: Record<string, unknown> = {
     price: tour.data.priceFrom,
     priceCurrency: 'EUR',
     availability: 'https://schema.org/InStock',
-    url: new URL(tourPath(slug, locale), site).toString(),
+    priceValidUntil,
+    validFrom: new Date().toISOString().slice(0, 10),
+    url: tourUrl,
+    seller: { '@id': orgId },
   },
 };
 
@@ -98,6 +126,7 @@ if (reviews.length > 0) {
     '@type': 'Review',
     author: { '@type': 'Person', name: r.author },
     datePublished: r.date,
+    inLanguage: htmlLang[locale],
     reviewRating: {
       '@type': 'Rating',
       ratingValue: r.rating,
@@ -107,6 +136,8 @@ if (reviews.length > 0) {
     reviewBody: r.text,
   }));
 }
+
+const tourLd = [webPageLd, trip];
 ---
 
 <BaseLayout
@@ -115,7 +146,7 @@ if (reviews.length > 0) {
   image={tour.data.ogImage}
   locale={locale}
   breadcrumbs={breadcrumbs}
-  jsonLd={trip}
+  jsonLd={tourLd}
   keywords={[...tour.data.highlights, tour.data.title, 'motorcycle tour', 'Naples', 'Italy']}
 >
   <article class="tour-detail">

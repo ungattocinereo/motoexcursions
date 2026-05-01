@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { useTranslations, type Locale } from '@/i18n/utils';
+import { htmlLang, localizedPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -8,9 +8,35 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+const site = Astro.site ?? new URL('https://motoexcursions.it');
+const pageUrl = new URL(localizedPath('/privacy/', locale), site).toString();
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: localizedPath('/', locale) },
+  { name: t('nav.privacy'), url: localizedPath('/privacy/', locale) },
+];
+
+const privacyLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: t('privacy.seoTitle'),
+  description: t('privacy.seoDescription'),
+  inLanguage: htmlLang[locale],
+  isPartOf: { '@id': `${site.toString()}#website` },
+  about: { '@id': `${site.toString()}#organization` },
+};
 ---
 
-<BaseLayout title={t('privacy.seoTitle')} description={t('privacy.seoDescription')} locale={locale}>
+<BaseLayout
+  title={t('privacy.seoTitle')}
+  description={t('privacy.seoDescription')}
+  locale={locale}
+  breadcrumbs={breadcrumbs}
+  jsonLd={privacyLd}
+>
   <section class="surface-card reveal" data-reveal style="margin-top: 1rem; padding: 1rem;">
     <h1 style="margin-top: 0;">{t('privacy.heading')}</h1>
     <p>{t('privacy.p1')}</p>

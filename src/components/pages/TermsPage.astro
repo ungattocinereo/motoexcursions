@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { useTranslations, type Locale } from '@/i18n/utils';
+import { htmlLang, localizedPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -8,9 +8,35 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+const site = Astro.site ?? new URL('https://motoexcursions.it');
+const pageUrl = new URL(localizedPath('/terms/', locale), site).toString();
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: localizedPath('/', locale) },
+  { name: t('terms.heading'), url: localizedPath('/terms/', locale) },
+];
+
+const termsLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: t('terms.seoTitle'),
+  description: t('terms.seoDescription'),
+  inLanguage: htmlLang[locale],
+  isPartOf: { '@id': `${site.toString()}#website` },
+  about: { '@id': `${site.toString()}#organization` },
+};
 ---
 
-<BaseLayout title={t('terms.seoTitle')} description={t('terms.seoDescription')} locale={locale}>
+<BaseLayout
+  title={t('terms.seoTitle')}
+  description={t('terms.seoDescription')}
+  locale={locale}
+  breadcrumbs={breadcrumbs}
+  jsonLd={termsLd}
+>
   <section class="surface-card reveal" data-reveal style="margin-top: 1rem; padding: 1rem;">
     <h1 style="margin-top: 0;">{t('terms.heading')}</h1>
     <p>{t('terms.p1')}</p>

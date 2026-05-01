@@ -10,11 +10,11 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'ua',
     locales: [
+      { path: 'ua', codes: ['uk', 'uk-UA'] },
       'en',
       'it',
-      { path: 'ua', codes: ['uk', 'uk-UA'] },
       { path: 'ru', codes: ['ru', 'ru-RU'] },
     ],
     routing: { prefixDefaultLocale: false },
@@ -23,8 +23,8 @@ export default defineConfig({
     icon({ iconDir: 'src/icons' }),
     sitemap({
       i18n: {
-        defaultLocale: 'en',
-        locales: { en: 'en', it: 'it', ua: 'uk', ru: 'ru' },
+        defaultLocale: 'ua',
+        locales: { ua: 'uk', en: 'en', it: 'it', ru: 'ru' },
       },
     }),
   ],

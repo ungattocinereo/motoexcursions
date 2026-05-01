@@ -11,9 +11,9 @@ const { locale, currentPath, variant = 'nav' } = Astro.props;
 const t = useTranslations(locale);
 
 const entries: Array<{ code: Locale; label: string; hreflang: string }> = [
+  { code: 'ua', label: 'UA', hreflang: 'uk' },
   { code: 'en', label: 'EN', hreflang: 'en' },
   { code: 'it', label: 'IT', hreflang: 'it' },
-  { code: 'ua', label: 'UA', hreflang: 'uk' },
   { code: 'ru', label: 'RU', hreflang: 'ru' },
 ];
 ---

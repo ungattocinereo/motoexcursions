@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SocialLinks from '@/components/SocialLinks.astro';
 import { getTours, tourSlug } from '@/lib/tours';
-import { localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
+import { htmlLang, localizedPath, tourPath, useTranslations, type Locale } from '@/i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -14,6 +14,77 @@ const t = useTranslations(locale);
 
 const tours = await getTours(locale);
 const featuredTour = tours[0];
+
+const site = Astro.site ?? new URL('https://motoexcursions.it');
+const homeUrl = new URL(localizedPath('/', locale), site).toString();
+const orgId = `${site.toString()}#organization`;
+
+// Aggregate rating across all tour reviews — feeds Home aggregate signal
+const reviewFiles = import.meta.glob('../../content/tours/*.reviews.json', { eager: true }) as Record<string, { default?: Array<{ rating: number }> }>;
+const allReviews = Object.values(reviewFiles).flatMap((m) => m.default ?? []);
+const reviewCount = allReviews.length;
+const aggRating = reviewCount
+  ? (allReviews.reduce((s, r) => s + r.rating, 0) / reviewCount).toFixed(1)
+  : '5.0';
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: localizedPath('/', locale) },
+];
+
+const webPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${homeUrl}#webpage`,
+  url: homeUrl,
+  name: t('site.title'),
+  description: t('site.description'),
+  inLanguage: htmlLang[locale],
+  isPartOf: { '@id': `${site.toString()}#website` },
+  about: { '@id': orgId },
+  primaryImageOfPage: featuredTour?.data.coverImage
+    ? new URL(featuredTour.data.coverImage, site).toString()
+    : undefined,
+};
+
+const offerCatalogLd = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: t('tours.heading'),
+  inLanguage: htmlLang[locale],
+  provider: { '@id': orgId },
+  itemListElement: tours.map((tour) => ({
+    '@type': 'Offer',
+    name: tour.data.title,
+    description: tour.data.excerpt,
+    price: tour.data.priceFrom,
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+    url: new URL(tourPath(tourSlug(tour), locale), site).toString(),
+    image: new URL(tour.data.coverImage, site).toString(),
+    itemOffered: {
+      '@type': 'TouristTrip',
+      name: tour.data.title,
+      description: tour.data.excerpt,
+      url: new URL(tourPath(tourSlug(tour), locale), site).toString(),
+    },
+  })),
+};
+
+const aggRatingLd = reviewCount
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'AggregateRating',
+      itemReviewed: { '@id': orgId },
+      ratingValue: aggRating,
+      reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    }
+  : null;
+
+const homeLd = aggRatingLd
+  ? [webPageLd, offerCatalogLd, aggRatingLd]
+  : [webPageLd, offerCatalogLd];
 
 const galleryImages = [
   '/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00002.webp',
@@ -37,13 +108,15 @@ const galleryImages = [
   image={featuredTour?.data.coverImage}
   isHome={true}
   locale={locale}
+  breadcrumbs={breadcrumbs}
+  jsonLd={homeLd}
 >
   <!-- ═══ Hero ═══ -->
   <section class="hero-cinematic">
     <div class="hero-cinematic__bg">
       <video
         class="hero-cinematic__video"
-        poster="/video/sito-poster.jpg"
+        poster="/video/hero-poster.jpg"
         autoplay
         muted
         loop
@@ -51,10 +124,8 @@ const galleryImages = [
         preload="metadata"
         aria-hidden="true"
       >
-        <source src="/video/sito-mobile.webm" type="video/webm" media="(max-width: 767px)" />
-        <source src="/video/sito-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
-        <source src="/video/sito-desktop.webm" type="video/webm" />
-        <source src="/video/sito-desktop.mp4" type="video/mp4" />
+        <source src="/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+        <source src="/video/hero-desktop.mp4" type="video/mp4" />
       </video>
       <div class="hero-cinematic__overlay"></div>
       <div class="hero-cinematic__grain"></div>
