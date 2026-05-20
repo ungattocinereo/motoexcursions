@@ -23,6 +23,9 @@ yarn-error.log*
 # source migration archive (do not commit)
 wp-old-uploads/
 
+# local source assets for one-off content fixes
+_fixes/
+
 # raw hero video source — only optimized outputs in public/video/ are shipped
 /video/
 

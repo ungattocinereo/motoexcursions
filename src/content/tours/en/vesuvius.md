@@ -1,47 +1,72 @@
 ---
 title: "Top of the Vesuvius"
 coverImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
-excerpt: "Evening ride to Vesuvius crater with panoramic views over Naples valley."
+excerpt: "Climb to the summit for sunset with a 360° view."
 highlights:
-  - "Sunset viewpoint at Vesuvius"
-  - "Vintage motorcycle experience"
-  - "Photo stops on scenic route"
+  - "The best view on the volcano"
+  - "The most scenic route"
+  - "Non-touristy locations"
 duration: "4–5 hours"
-priceFrom: 180
+priceFrom: 100
+priceNote: "€100 per person by car · €120 per person by motorcycle"
 meetingPoint: "Naples city center"
-route: "Naples center → Vesuvius panoramic road → crater viewpoint"
-seoTitle: "Vesuvius Moto Tour from Naples | Italia Moto Excursions"
-seoDescription: "Ride to Vesuvius at golden hour and enjoy panoramic Naples views with a local guide."
+route: "Naples center → Vesuvius panoramic road → walking climb to the summit"
+heroKicker: "Advanced route"
+bookingFacts:
+  - icon: "lucide:clock"
+    label: "Duration"
+    value: "4–5 hours"
+  - icon: "lucide:map-pin"
+    label: "Meeting point"
+    value: "Naples city center"
+  - icon: "lucide:route"
+    label: "Transport"
+    value: "Motorcycle or car"
+  - icon: "lucide:route"
+    label: "Ascent"
+    value: "On foot"
+  - icon: "lucide:user"
+    label: "People"
+    value: "From one person and more"
+  - icon: "lucide:languages"
+    label: "Languages"
+    value: "UA · RU · EN · IT"
+seoTitle: "Vesuvius Sunset Climb from Naples | Italia Moto Excursions"
+seoDescription: "Climb to the summit of Vesuvius at sunset with a 360° view, walking ascent, and transport by motorcycle or car."
 ogImage: "/images/tours/vesuvius/motoexcursions-vesuvius-tour-00031-main.webp"
 order: 1
 ---
 
 ## Tour overview
 
-🌋 Climb to Vesuvius — to the most beautiful point on the crater rim with a 360° view, at the perfect time, at sunset. Regular tourists are never taken there, and never at this hour.
+Climb to Mount Vesuvius — to the summit with a 360° view, at the perfect hour, for sunset. Ordinary tourist groups are almost never brought there at this time.
 
-We warm ourselves on the hot ground and drink tea brewed by volcanic steam. No one but us. The wild side of the crater that ordinary tourists can't access — this is where the real beauty of the volcano reveals itself.
+We can reach the start of the climb by motorcycle or by car. From there we continue on foot: this is the main part of the route and the moment when the strongest views open over the crater, Naples, and the bay.
+
+We warm ourselves on the hot ground and drink tea brewed by volcanic steam. No one but us. The wild side of the crater that ordinary tourists cannot access — this is where the real beauty of the volcano reveals itself.
+
+For the motorcycle format, several motorcycles can be arranged at the same time.
 
 ## What is included
 
-- Ride from Naples to Vesuvius with an experienced rider
-- Climb to the closed-off section of the crater
+- Ride from Naples to Vesuvius by motorcycle or car
+- Walking ascent to the most beautiful point at the summit
+- Sunset with a 360° view
 - Tea brewed by volcanic steam
-- Sunset right at the summit
-- Photo stops along the route
+- Photo stops along the scenic route
 
 ## What is not included
 
-- Food and drinks (other than the tea at the summit)
+- Food and drinks, except tea at the summit
 - Personal insurance
-- Warm clothing and trekking shoes (bring your own)
+- Warm clothing and trekking shoes
 
 ## Important conditions
 
 - Duration 4–5 hours, start and finish in Naples.
-- The main part is a hike: ~1.5 hours up and 0.5 hours down. Easy difficulty — works even for unprepared guests, just allow more time.
-- Start in the second half of the day, the exact hour shifts each month — roughly 3 hours before sunset.
-- Evenings can be cool. Bring something warm — thermal base layer (summer or winter weight) and non-slip trekking shoes are recommended.
-- Available year-round on private booking.
+- The main part is a hike: about 1.5 hours up and 0.5 hours down. The difficulty is easy, but comfortable shoes are necessary.
+- Start in the second half of the day; the exact hour changes each month, roughly 3 hours before sunset.
+- Evenings can be cool. Bring something warm and non-slip trekking shoes.
+- Available from one person and more.
 
 **Add-ons:** you can book a photo shoot with a professional camera and drone.

@@ -1,30 +1,43 @@
 ---
-title: "Amalfi Excursion"
+title: "Amalfi Coast Excursion"
 coverImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
-excerpt: "Ride the Amalfi Coast with cinematic sea views and iconic cliffside roads."
+excerpt: "A 10-hour ride along the Amalfi Coast with panoramic roads, sea views, and the most beautiful towns."
 highlights:
   - "Best panoramic roads of the coast"
-  - "Stops in photogenic villages"
-  - "Stress-free route planning"
-duration: "6 hours"
-priceFrom: 220
+  - "Non-touristy places and viewpoints"
+  - "Amalfi, Atrani, Ravello, and Positano"
+duration: "10 hours"
+priceFrom: 250
 meetingPoint: "Naples city center"
-route: "Naples → Amalfi Coast road → scenic villages and viewpoints"
+route: "Naples → Sorrento Coast → Amalfi Coast → scenic towns"
+bookingFacts:
+  - icon: "lucide:clock"
+    label: "Duration"
+    value: "10 hours"
+  - icon: "lucide:map-pin"
+    label: "Meeting point"
+    value: "Naples city center"
+  - icon: "lucide:bike"
+    label: "Passenger"
+    value: "You are passenger · 1–6 motorcycles"
+  - icon: "lucide:languages"
+    label: "Languages"
+    value: "UA · RU · EN · IT"
 seoTitle: "Amalfi Coast Moto Excursion | Italia Moto Excursions"
-seoDescription: "Private-style Amalfi coast motorcycle excursion with local guide and photo-focused route."
+seoDescription: "10-hour Amalfi Coast motorcycle excursion from Naples: Sorrento, Amalfi, Atrani, Ravello, Positano, and panoramic roads."
 ogImage: "/images/tours/amalfi/italia-moto-excursions-amalfi-tour-00005-main.webp"
 order: 3
 ---
 
 ## Tour overview
 
-From Naples to one of the most beautiful coastlines in Italy — the Amalfi Coast (a UNESCO site). It's something unique: storybook villages, mountains, sea, hairpin roads, and incredible vistas you'll see in full. Locations tourists never reach, and a lot of stops.
+From Naples to one of the most beautiful coastlines in Italy — the Amalfi Coast, a UNESCO site. It is a unique mix of storybook towns, mountains, sea, winding roads, and incredible views that we experience to the fullest.
 
-On the way we cross the Sorrento Coast and see Sorrento from the best angles. Then the mountain pass into the Amalfi Coast: Amalfi, Atrani, Ravello, Positano, and many other character-filled towns around them.
+On the way we cross the Sorrento Coast and see Sorrento from the best angles. Then the mountain pass leads us to the Amalfi Coast: Amalfi, Atrani, Ravello, Positano, and many other character-filled towns around them.
 
-The most panoramic roads with no traffic, from the back seat of a motorcycle. Lunch with locals overlooking spectacular views — we taste local cheeses, wine, salumi, and home cooking. The wildest non-touristy places that will floor you with their beauty. In summer we also swim.
+The most panoramic roads with no traffic, from the passenger seat of a motorcycle. The wildest non-touristy places that will surprise you with their beauty. In summer we also swim.
 
-The motorcycle is the only way to see and feel all of this at full intensity.
+On request, several motorcycles can be arranged at the same time — from 1 to 6.
 
 ## What is included
 
@@ -32,17 +45,20 @@ The motorcycle is the only way to see and feel all of this at full intensity.
 - Sorrento Coast and Sorrento from viewpoints
 - Amalfi, Atrani, Ravello, Positano, and surrounding towns
 - The most panoramic roads, free of traffic
-- Lunch with locals featuring cheeses, wine, salumi (food paid separately)
+- Non-touristy locations and photo stops
 - Swim stops in summer
 
 ## What is not included
 
-- Food and drinks (extra payment for food only)
+- Food and drinks
 - Personal insurance
 - Paid attractions
 
 ## Important conditions
 
+- Duration 10 hours.
+- Price €250 per person.
+- You are a passenger on the motorcycle; 1–6 motorcycles are available.
 - Closed shoes are mandatory.
 - In summer, apply sunscreen before departure.
 - In summer, bring swimwear for the swim stop.

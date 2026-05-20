@@ -1871,6 +1871,12 @@ img {
   font-size: 0.85rem;
   color: var(--muted);
 }
+.booking-card__price-note {
+  flex-basis: 100%;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
 
 .booking-card__facts {
   list-style: none;
@@ -3428,4 +3434,3 @@ header:not(.nav-hero-overlay) .lang-switch__opt:hover {
   transform: translate(3px, -3px);
   color: var(--gold);
 }
-

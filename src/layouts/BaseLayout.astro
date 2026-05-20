@@ -48,7 +48,7 @@ const alternates = locales.map((code) => {
 });
 const xDefault = new URL(localizedPath(currentPath, defaultLocale), site).toString();
 
-const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(t('wa.prefill'))}`;
+const waHref = `https://wa.me/393347080220?text=${encodeURIComponent(t('wa.prefill'))}`;
 
 const ogLocaleMap: Record<Locale, string> = { en: 'en_US', it: 'it_IT', ua: 'uk_UA', ru: 'ru_RU' };
 const ogLocaleAlternates = locales.filter((l) => l !== locale).map((l) => ogLocaleMap[l]);
@@ -106,7 +106,7 @@ const orgLd = {
   image: ogImage,
   description: t('site.defaultDescription'),
   inLanguage: ['uk', 'en', 'it', 'ru'],
-  telephone: '+39 334 720 0808',
+  telephone: '+39 334 708 0220',
   email: 'info@motoexcursions.it',
   priceRange: '€€',
   currenciesAccepted: 'EUR',
@@ -142,7 +142,7 @@ const orgLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
-    telephone: '+39 334 720 0808',
+    telephone: '+39 334 708 0220',
     email: 'info@motoexcursions.it',
     areaServed: 'IT',
     availableLanguage: ['English', 'Italian', 'Ukrainian', 'Russian'],
@@ -187,6 +187,7 @@ const allLd = [orgLd, personLd, websiteLd, ...(breadcrumbsLd ? [breadcrumbsLd] :
 const navItems = [
   { href: localizedPath('/', locale), label: t('nav.home'), icon: 'lucide:home', match: (p: string) => p === localizedPath('/', locale) },
   { href: localizedPath('/tours/', locale), label: t('nav.tours'), icon: 'lucide:map', match: (p: string) => p.includes('/tours') },
+  { href: `${localizedPath('/', locale)}#about`, label: t('nav.about'), icon: 'lucide:user-round', match: () => false },
   { href: localizedPath('/contact/', locale), label: t('nav.contact'), icon: 'lucide:mail', match: (p: string) => p.endsWith('/contact/') },
 ];
 ---
@@ -385,7 +386,7 @@ const navItems = [
           <a href="https://www.instagram.com/italia_moto_excursions/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Icon name="lucide:instagram" />
           </a>
-          <a href="https://wa.me/393347200808" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <a href="https://wa.me/393347080220" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
             <Icon name="lucide:message-circle" />
           </a>
         </div>

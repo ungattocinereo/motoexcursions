@@ -135,7 +135,7 @@ const galleryImages = [
       <div class="hero-cinematic__left">
         <span class="hero-cinematic__kicker">{t('hero.kicker')}</span>
         <h1 class="hero-cinematic__title">
-          {t('hero.titlePrefix')} <em>{t('hero.titleEm')}</em> {t('hero.titleSuffix')}
+          {t('hero.titlePrefix')} <em>{t('hero.titleEm')}</em>{t('hero.titleSuffix') ? ` ${t('hero.titleSuffix')}` : ''}
         </h1>
         <p class="hero-cinematic__subtitle">{t('hero.subtitle')}</p>
         <div class="hero-cinematic__cta">
@@ -185,7 +185,7 @@ const galleryImages = [
   </section>
 
   <!-- ═══ YouTube Intro / About Dima ═══ -->
-  <section class="intro-section">
+  <section id="about" class="intro-section">
     <div class="intro-video">
       <button
         type="button"

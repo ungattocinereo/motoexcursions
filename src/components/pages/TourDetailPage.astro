@@ -25,9 +25,10 @@ const { tour, locale } = Astro.props;
 const t = useTranslations(locale);
 const { Content } = await tour.render();
 const slug = tourSlug(tour);
-const galleryImages = getTourGallery(slug).length > 0
-  ? getTourGallery(slug)
-  : (tour.data.gallery ?? []);
+const autoGalleryImages = getTourGallery(slug);
+const galleryImages = tour.data.gallery?.length
+  ? tour.data.gallery
+  : autoGalleryImages;
 
 const reviewFiles = import.meta.glob('../../content/tours/*.reviews.json', { eager: true });
 const reviewPath = `../../content/tours/${slug}.reviews.json`;
@@ -42,7 +43,7 @@ const allTours = await getTours(locale);
 const related = allTours.filter((tr) => tourSlug(tr) !== slug).slice(0, 2);
 
 const waText = `${t('wa.prefillTour')} ${tour.data.title}`;
-const waHref = `https://wa.me/393347200808?text=${encodeURIComponent(waText)}`;
+const waHref = `https://wa.me/393347080220?text=${encodeURIComponent(waText)}`;
 
 const site = Astro.site ?? new URL('https://motoexcursions.it');
 const orgId = `${site.toString()}#organization`;
@@ -56,6 +57,12 @@ const breadcrumbs = [
 ];
 
 const highlightIcons = ['lucide:mountain', 'lucide:camera', 'lucide:leaf', 'lucide:map', 'lucide:star', 'lucide:compass'];
+const bookingFacts = tour.data.bookingFacts ?? [
+  { icon: 'lucide:clock', label: t('tourDetail.duration'), value: tour.data.duration },
+  { icon: 'lucide:map-pin', label: t('tourDetail.meetingPoint'), value: tour.data.meetingPoint },
+  { icon: 'lucide:user', label: t('tourDetail.groupSize'), value: t('tourDetail.groupSizeValue') },
+  { icon: 'lucide:languages', label: t('tourDetail.language'), value: t('tourDetail.languageValue') },
+];
 
 // Offer "valid through" — keep prices fresh for ~1 year from build
 const priceValidUntil = new Date(Date.now() + 365 * 24 * 3600 * 1000)
@@ -168,7 +175,7 @@ const tourLd = [webPageLd, trip];
 
         <p class="tour-hero__kicker">
           <Icon name="lucide:bike" aria-hidden="true" />
-          <span>{t('tourDetail.heroKicker')}</span>
+          <span>{tour.data.heroKicker ?? t('tourDetail.heroKicker')}</span>
         </p>
 
         <h1 class="tour-hero__title">{tour.data.title}</h1>
@@ -277,37 +284,19 @@ const tourLd = [webPageLd, trip];
             <span class="booking-card__price-label">{t('tourCard.priceFrom')}</span>
             <span class="booking-card__price-value">€{tour.data.priceFrom}</span>
             <span class="booking-card__price-unit">{t('tourCard.perPerson')}</span>
+            {tour.data.priceNote && <span class="booking-card__price-note">{tour.data.priceNote}</span>}
           </div>
 
           <ul class="booking-card__facts">
-            <li>
-              <Icon name="lucide:clock" aria-hidden="true" />
-              <div>
-                <span>{t('tourDetail.duration')}</span>
-                <strong>{tour.data.duration}</strong>
-              </div>
-            </li>
-            <li>
-              <Icon name="lucide:map-pin" aria-hidden="true" />
-              <div>
-                <span>{t('tourDetail.meetingPoint')}</span>
-                <strong>{tour.data.meetingPoint}</strong>
-              </div>
-            </li>
-            <li>
-              <Icon name="lucide:user" aria-hidden="true" />
-              <div>
-                <span>{t('tourDetail.groupSize')}</span>
-                <strong>{t('tourDetail.groupSizeValue')}</strong>
-              </div>
-            </li>
-            <li>
-              <Icon name="lucide:languages" aria-hidden="true" />
-              <div>
-                <span>{t('tourDetail.language')}</span>
-                <strong>{t('tourDetail.languageValue')}</strong>
-              </div>
-            </li>
+            {bookingFacts.map((fact) => (
+              <li>
+                <Icon name={fact.icon} aria-hidden="true" />
+                <div>
+                  <span>{fact.label}</span>
+                  <strong>{fact.value}</strong>
+                </div>
+              </li>
+            ))}
           </ul>
 
           <div class="booking-card__ctas">

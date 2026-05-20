@@ -1,33 +1,63 @@
 ---
 title: "Napoli Tour"
-coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.webp"
-excerpt: "Discover Naples from a local perspective with iconic streets, panoramas, and hidden spots."
+coverImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00039-main.webp"
+gallery:
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00040.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00041.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00042.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00043.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00044.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00045.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00008.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00010.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00012.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00013.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00017.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00023.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00032.webp"
+  - "/images/tours/napoli/italia-moto-excursions-napoli-tour-00036.webp"
+excerpt: "The best panoramas, non-touristy locations, and old quarters of Naples."
 highlights:
-  - "Historic center and waterfront viewpoints"
-  - "Fast city orientation with photo stops"
-  - "Perfect as first-day city intro"
-duration: "3.5 hours"
+  - "Best panoramas"
+  - "Non-touristy locations"
+  - "Old quarters"
+duration: "4 hours"
 priceFrom: 160
 meetingPoint: "Naples city center"
-route: "Historic center → seaside promenade → panoramic terraces"
+route: "Panoramic viewpoints → non-touristy locations → old quarters"
+bookingFacts:
+  - icon: "lucide:clock"
+    label: "Duration"
+    value: "4 hours"
+  - icon: "lucide:map-pin"
+    label: "Meeting point"
+    value: "Naples city center"
+  - icon: "lucide:bike"
+    label: "Passenger"
+    value: "1–6 motorcycles"
+  - icon: "lucide:languages"
+    label: "Languages"
+    value: "UA · RU · EN · IT"
 seoTitle: "Napoli Moto Tour | Italia Moto Excursions"
-seoDescription: "Explore Naples with a local rider guide, iconic districts, and panoramic city viewpoints."
-ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00011-main.webp"
+seoDescription: "Naples tour with the best panoramas, non-touristy locations, old quarters, and the option to arrange 1–6 motorcycles."
+ogImage: "/images/tours/napoli/italia-moto-excursions-napoli-tour-00039-main.webp"
 order: 2
 ---
 
 ## Tour overview
 
-A ride through Naples and its most panoramic places — a personal journey along roads and locations tourists never see, the ones that hold the real beauty and character of the city. Plenty of viewpoints with the best angles over the city and the landscapes around it, an aperitivo on a terrace with a stunning view, old quarters with narrow colorful alleys and laundry hanging right above your head. Lunch or coffee with locals.
+A route through Naples and its most panoramic places — a personal journey along roads and locations tourists rarely see, but that hold the city's real beauty and character. Many viewpoints with the best angles over the city and the landscapes around it, old quarters with narrow colorful streets, laundry above your head, and the living rhythm of Naples.
 
-On this route we don't visit museums and we don't recite 2,500 years of Naples history. Instead — pure beauty, real feeling, and an unconventional, intense experience. This is how Naples deserves to be seen.
+On this route we do not visit museums and we do not recite 2,500 years of Naples history. Instead, we see a lot of beauty and experience the city in an unconventional, intense way. This is how Naples deserves to be seen.
+
+On request, several motorcycles can be arranged at the same time — from 1 to 6.
 
 ## What is included
 
 - Personal moto tour with an experienced rider
-- Panoramic roads and viewpoints you can't reach by car
+- The best panoramic viewpoints in Naples
+- Non-touristy locations
 - Old quarters with the strongest local character
-- Aperitivo on a terrace overlooking the city
 - Photo stops at the most beautiful angles
 
 ## What is not included
@@ -38,8 +68,10 @@ On this route we don't visit museums and we don't recite 2,500 years of Naples h
 
 ## Important conditions
 
+- Duration 4 hours.
+- Available from 1 to 6 motorcycles at the same time.
 - This route can be combined with the Vesuvius climb on the same day.
-- In summer there's a chance to swim at a great spot on volcanic rocks — bring swimwear.
+- In summer there is a chance to swim at a great spot on volcanic rocks; bring swimwear.
 - Closed comfortable shoes for the stops.
 
-**Add-ons:** you can book a photo shoot with a professional camera, drone, and Insta360 action camera — you'll be visible from outside, real wow effect.
+**Add-ons:** you can book a photo shoot with a professional camera, drone, and Insta360 action camera.
